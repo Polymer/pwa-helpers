@@ -12,11 +12,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   Basic router that calls a callback whenever the location is updated.
 
   Sample use:
-  import { Element as PolymerElement} from '../../node_modules/@polymer/polymer/polymer-element.js';
-  import { connect } from '../../node_modules/@polymer/redux-helpers/connect-mixin.js';
-  import { installRouter } from '../../lib/router.js';
+  import { connect } from '../node_modules/@webcomponents/redux-helpers/connect-mixin.js';
+  import { installRouter } from '../node_modules/@webcomponents/redux-helpers/router.js';
 
-  class MyElement extends connect(store)(PolymerElement) {
+  class MyElement extends connect(store)(HTMLElement) {
     // ...
 
     ready() {

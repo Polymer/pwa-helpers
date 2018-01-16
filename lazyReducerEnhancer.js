@@ -8,7 +8,9 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import combineReducers from '../../../node_modules/@0xcda7a/redux-es6/es/combineReducers.js';
+// TODO: We are using this version because standard Redux uses names not paths.
+// Investigate if we can require the user to provide their version of combineReducers.
+import combineReducers from '../node_modules/@0xcda7a/redux-es6/es/combineReducers.js';
 
 /*
   If you are lazy loading any connected elements, then these elements must be
@@ -17,7 +19,7 @@ import combineReducers from '../../../node_modules/@0xcda7a/redux-es6/es/combine
 
   Sample use (where you define your redux store, in store.js):
 
-  import lazyReducerEnhancer from '../../node_modules/@polymer/redux-helpers/lazyReducerEnhancer.js';
+  import lazyReducerEnhancer from '../node_modules/@webcomponents/redux-helpers/lazyReducerEnhancer.js';
   import someReducer from './reducers/someReducer.js';
 
   export const store = createStore(

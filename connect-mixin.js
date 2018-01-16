@@ -9,20 +9,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 /*
-  Mixin for connecting an element to the Redux store that implements the
+  Mixin for connecting an element to the Redux store; implements the
   basic store-connection boilerplate.
 
   Sample use:
-  import { Element as PolymerElement} from '../../node_modules/@polymer/polymer/polymer-element.js';
-  import { connect } from '../../node_modules/@polymer/redux-helpers/connect-mixin.js';
+  import { connect } from '../node_modules/@webcomponents/redux-helpers/connect-mixin.js';
 
-  class MyElement extends connect(store)(PolymerElement) {
+  class MyElement extends connect(store)(HTMLElement) {
     // ...
 
     update(state) {
-      this.setProperties({
-        count: state.data.count,
-      });
+      this.count = state.data.count;
     }
   }
 */
