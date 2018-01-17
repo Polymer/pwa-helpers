@@ -26,14 +26,21 @@ state.
 let template = document.createElement('template');
 template.innerHTML = `
 <div>
+  <h2>Router</h2>
   <p>Here are some links, to demostrate the basic router. Clicking on the
   link will not do a page refresh, and will update the displayed page in the store. </p>
   <p>
   You're currently on <b><span id="pageSpan"></span></b></p>
   <a href="/demo/">home</a> | <a href="/demo/page1">page1</a> | <a href="/demo/page2">page2</a> | <a href="/demo/page3">page3</a>
-  <hr>
-  <p>This is a demo of a simple counter element, whose internal state is kept in the Redux store<p>
+
+  <h2>Basic Redux example</h2>
+  <p>This is a demo of a simple counter element, which is <i>not</i> connected to the
+  Redux store. It represents a third-party element you could've gotten from an
+  element catalog. However, its parent, the main app element, <i>is</i> connected to
+  the store and therefore is responsible for syncing the state.<p>
   <counter-element></counter-element>
+
+  <h2>Lazy loaded reducers</h2>
 </div>
 `
 
