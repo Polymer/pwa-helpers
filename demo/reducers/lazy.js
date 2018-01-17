@@ -8,20 +8,9 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { NAVIGATE } from '../actions/app.js';
-
-const app = (state = {}, action) => {
-  switch (action.type) {
-    case NAVIGATE:
-      const location = action.path;
-      const page = window.decodeURIComponent(location.pathname);
-      return {
-        ...state,
-        page: page
-      };
-    default:
-      return state;
-  }
+// This reducer doesn't do anything other than boot up.
+const lazy = (state = {didLoad:true}, action) => {
+  return state;
 }
 
-export default app;
+export default lazy;

@@ -31,7 +31,7 @@ template.innerHTML = `
   link will not do a page refresh, and will update the displayed page in the store. </p>
   <p>
   You're currently on <b><span id="pageSpan"></span></b></p>
-  <a href="/demo/">home</a> | <a href="/demo/page1">page1</a> | <a href="/demo/page2">page2</a> | <a href="/demo/page3">page3</a>
+  <a href="/demo/">home</a> | <a href="/demo/page1">page1</a> | <a href="/demo/page2">page2</a> | <a href="/demo/page3">page3</a> | <a href="/demo/lazy-reducer">lazy-reducer</a>
 
   <h2>Basic Redux example</h2>
   <p>This is a demo of a simple counter element, which is <i>not</i> connected to the
@@ -41,6 +41,10 @@ template.innerHTML = `
   <counter-element></counter-element>
 
   <h2>Lazy loaded reducers</h2>
+  <p>When you click on the <b>lazy-reducer</b>link, the app will lazily load a reducer
+  which will set a new property in the store, <code>didLoad</code>. That value is
+  displayed here:</p>
+  <p><code>didLoad = <span id="didLoadSpan"></span></code>
 </div>
 `
 
@@ -54,6 +58,8 @@ class MyApp extends connect(store)(HTMLElement) {
 
     this._counter = shadowRoot.querySelector('counter-element');
     this._page = shadowRoot.getElementById('pageSpan');
+    this._loaded = shadowRoot.getElementById('didLoadSpan');
+    this._ready = true;
 
     // Every time the display of the counter updates, we should save
     // these values in the store
@@ -65,19 +71,34 @@ class MyApp extends connect(store)(HTMLElement) {
       store.dispatch(decrement());
     });
 
-    // Setup the router.
+    // Setup the router. Do this last since this will trigger a store
+    // update, and correctly update the UI.
     installRouter(() => store.dispatch(navigate(window.location)));
   }
 
   update(state) {
-    if (this._counter) {
-      this._counter.clicks = state.clicks;
-      this._counter.value = state.value;
-    }
-    if (this._page) {
-      this._page.textContent = state.page;
+    // The store boots up before we have stamped the template.
+    if (!this._ready) {
+      return;
     }
 
+    // If we're on the page that needs to lazy load the reducer, do that.
+    if (!state.lazy && state.app.page === '/demo/lazy-reducer') {
+      import('../reducers/lazy.js').then((module) => {
+        const reducer = module.default;
+        store.addReducers({'lazy': reducer});
+      });
+    }
+
+    // Update the UI.
+    this._counter.clicks = state.counter.clicks;
+    this._counter.value = state.counter.value;
+    this._page.textContent = state.app.page;
+    if (!state.lazy) {
+      this._loaded.textContent = 'undefined';
+    } else {
+      this._loaded.textContent = state.lazy.didLoad;
+    }
   }
 }
 
