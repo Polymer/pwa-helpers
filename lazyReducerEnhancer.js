@@ -15,7 +15,7 @@ import combineReducers from '../node_modules/@0xcda7a/redux-es6/es/combineReduce
 /*
   If you are lazy loading any connected elements, then these elements must be
   able to lazily install their reducers. This is a store enhancer that
-  enables that
+  enables that.
 
   Sample use (where you define your redux store, in store.js):
 
@@ -27,7 +27,7 @@ import combineReducers from '../node_modules/@0xcda7a/redux-es6/es/combineReduce
     compose(lazyReducerEnhancer, applyMiddleware(thunk))
   );
 
-  // Initially loaded reducers.
+  Then, in your page/element, you can lazy load a specific reducer with:
   store.addReducers({
     someReducer
   });
