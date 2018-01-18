@@ -32,7 +32,7 @@ import combineReducers from '../node_modules/@0xcda7a/redux-es6/es/combineReduce
     someReducer
   });
 */
-const lazyReducerEnhancer = function(nextCreator) {
+export const lazyReducerEnhancer = function(nextCreator) {
   return (origReducer, preloadedState) => {
     let lazyReducers = {};
     const nextStore = nextCreator(origReducer, preloadedState);
@@ -47,4 +47,3 @@ const lazyReducerEnhancer = function(nextCreator) {
     }
   }
 }
-export default lazyReducerEnhancer;

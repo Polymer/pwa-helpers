@@ -41,7 +41,7 @@ template.innerHTML = `
   <counter-element></counter-element>
 
   <h2>Lazy loaded reducers</h2>
-  <p>When you click on the <b>lazy-reducer</b>link, the app will lazily load a reducer
+  <p>When you click on the <b>lazy-reducer</b> link, the app will lazily load a reducer
   which will set a new property in the store, <code>didLoad</code>. That value is
   displayed here:</p>
   <p><code>didLoad = <span id="didLoadSpan"></span></code>

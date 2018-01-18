@@ -12,9 +12,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 // Investigate if we can require the user to provide their version of combineReducers.
 import createStore from '../node_modules/@0xcda7a/redux-es6/es/createStore.js';
 import origCompose from '../node_modules/@0xcda7a/redux-es6/es/compose.js';
-//import applyMiddleware from '../node_modules/@0xcda7a/redux-es6/es/applyMiddleware.js';
 
-import lazyReducerEnhancer from '../lazyReducerEnhancer.js'
+import { lazyReducerEnhancer } from '../lazyReducerEnhancer.js'
 const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || origCompose;
 
 export const store = createStore(
