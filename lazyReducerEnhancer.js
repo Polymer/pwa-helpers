@@ -8,10 +8,6 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-// TODO: We are using this version because standard Redux uses names not paths.
-// Investigate if we can require the user to provide their version of combineReducers.
-import combineReducers from '../node_modules/@0xcda7a/redux-es6/es/combineReducers.js';
-
 /*
   If you are lazy loading any connected elements, then these elements must be
   able to lazily install their reducers. This is a store enhancer that
@@ -32,17 +28,19 @@ import combineReducers from '../node_modules/@0xcda7a/redux-es6/es/combineReduce
     someReducer
   });
 */
-export const lazyReducerEnhancer = function(nextCreator) {
-  return (origReducer, preloadedState) => {
-    let lazyReducers = {};
-    const nextStore = nextCreator(origReducer, preloadedState);
-    return {
-      ...nextStore,
-      addReducers(newReducers) {
-        this.replaceReducer(combineReducers(lazyReducers = {
-          ...lazyReducers,
-          ...newReducers
-        }));
+export const lazyReducerEnhancer = function(combineReducers) {
+  return (nextCreator) => {
+    return (origReducer, preloadedState) => {
+      let lazyReducers = {};
+      const nextStore = nextCreator(origReducer, preloadedState);
+      return {
+        ...nextStore,
+        addReducers(newReducers) {
+          this.replaceReducer(combineReducers(lazyReducers = {
+            ...lazyReducers,
+            ...newReducers
+          }));
+        }
       }
     }
   }
