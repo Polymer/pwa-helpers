@@ -5,7 +5,7 @@
     "The Polymer Authors"
   ],
   "license": "https://polymer.github.io/LICENSE.txt",
-  "dependencies": {
+  "devDependencies": {
     "@0xcda7a/redux-es6": "^3.7.2",
     "@webcomponents/webcomponentsjs": "^1.0.0"
   }

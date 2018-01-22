@@ -12,24 +12,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   Basic router that calls a callback whenever the location is updated.
 
   Sample use:
-  import { connect } from '../node_modules/@webcomponents/redux-helpers/connect-mixin.js';
   import { installRouter } from '../node_modules/@webcomponents/redux-helpers/router.js';
-
   import { navigate } from '../actions/app.js';
 
-  class MyElement extends connect(store)(HTMLElement) {
-    // ...
+  // If you don’t have any other work to do other than dispatching an action,
+  // you can write something like:
+  installRouter(() => store.dispatch(navigate(window.location)));
 
-    connectedCallback() {
-      // If you don’t have any other work to do other than dispatching an action,
-      // you can write something like:
-      installRouter(() => store.dispatch(navigate(window.location)));
-
-      // If you need to do other work, you can also use this, where the
-      // _notifyPathChanged method would dispatch the store action.
-      // installRouter(this._notifyPathChanged.bind(this));
-    }
-  }
+  // If you need to do other work, you can also use this, where the
+  // _notifyPathChanged method would dispatch the store action.
+  // installRouter(someCallback.bind(this));
 */
 
 export const installRouter = (locationUpdatedCallback) => {

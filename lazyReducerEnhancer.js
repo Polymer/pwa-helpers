@@ -20,7 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   export const store = createStore(
     (state, action) => state,
-    compose(lazyReducerEnhancer, applyMiddleware(thunk))
+    compose(lazyReducerEnhancer(combineReducers), applyMiddleware(thunk))
   );
 
   Then, in your page/element, you can lazy load a specific reducer with:
