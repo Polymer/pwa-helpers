@@ -12,7 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   Basic router that calls a callback whenever the location is updated.
 
   Sample use:
-  import { installRouter } from '../node_modules/@webcomponents/redux-helpers/router.js';
+  import { installRouter } from '../node_modules/@polymer/redux-helpers/router.js';
   import { navigate } from '../actions/app.js';
 
   // If you don’t have any other work to do other than dispatching an action,

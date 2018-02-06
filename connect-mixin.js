@@ -18,24 +18,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   class MyElement extends connect(store)(HTMLElement) {
     // ...
 
-    update(state) {
+    stateChanged(state) {
       this.count = state.data.count;
     }
   }
 */
 
 export const connect = (store) => (baseElement) => class extends baseElement {
-  constructor() {
-    super();
-
+  connectedCallback() {
     // Connect the element to the store.
-    store.subscribe(() => this.update(store.getState()));
-    this.update(store.getState());
+    this.__storeUnsubscribe = store.subscribe(() => this.stateChanged(store.getState()));
+    this.stateChanged(store.getState());
   }
 
+  disconnectedCallback() {
+    this.__storeUnsubscribe();
+  }
 
   // This is called every time something is updated in the store.
-  update(state) {
-    throw new Error('update() not implemented', this);
+  stateChanged(state) {
+    throw new Error('stateChanged() not implemented', this);
   }
 };
