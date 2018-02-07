@@ -76,7 +76,7 @@ class MyApp extends connect(store)(HTMLElement) {
     installRouter(() => store.dispatch(navigate(window.location)));
   }
 
-  update(state) {
+  stateChanged(state) {
     // The store boots up before we have stamped the template.
     if (!this._ready) {
       return;

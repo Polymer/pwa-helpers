@@ -15,7 +15,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   Sample use (where you define your redux store, in store.js):
 
-  import lazyReducerEnhancer from '../node_modules/@webcomponents/redux-helpers/lazyReducerEnhancer.js';
+  import lazyReducerEnhancer from '../node_modules/@polymer/redux-helpers/lazy-reducer-enhancer.js';
   import someReducer from './reducers/someReducer.js';
 
   export const store = createStore(
