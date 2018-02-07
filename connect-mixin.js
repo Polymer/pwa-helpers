@@ -29,10 +29,16 @@ export const connect = (store) => (baseElement) => class extends baseElement {
     // Connect the element to the store.
     this.__storeUnsubscribe = store.subscribe(() => this.stateChanged(store.getState()));
     this.stateChanged(store.getState());
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
   }
 
   disconnectedCallback() {
     this.__storeUnsubscribe();
+    if (super.connectedCallback) {
+      super.disconnectedCallback();
+    }
   }
 
   // This is called every time something is updated in the store.

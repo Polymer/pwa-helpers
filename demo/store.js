@@ -14,7 +14,7 @@ import createStore from '../node_modules/@0xcda7a/redux-es6/es/createStore.js';
 import origCompose from '../node_modules/@0xcda7a/redux-es6/es/compose.js';
 import combineReducers from '../node_modules/@0xcda7a/redux-es6/es/combineReducers.js';
 
-import { lazyReducerEnhancer } from '../lazyReducerEnhancer.js'
+import { lazyReducerEnhancer } from '../lazy-reducer-enhancer.js'
 const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || origCompose;
 
 export const store = createStore(
