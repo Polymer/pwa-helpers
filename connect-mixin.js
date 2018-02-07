@@ -36,7 +36,8 @@ export const connect = (store) => (baseElement) => class extends baseElement {
 
   disconnectedCallback() {
     this.__storeUnsubscribe();
-    if (super.connectedCallback) {
+    
+    if (super.disconnectedCallback) {
       super.disconnectedCallback();
     }
   }
