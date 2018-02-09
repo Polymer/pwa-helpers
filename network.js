@@ -16,7 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   Sample use:
   import { installOfflineWatcher } from '../node_modules/@polymer/redux-helpers/network.js';
 
-  installNetworkWatcher((offline) => {
+  installOfflineWatcher((offline) => {
     console.log('You are ' + offline ? ' offline' : 'online');
   });
 
