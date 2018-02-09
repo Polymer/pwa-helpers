@@ -4,6 +4,28 @@ and reduce the boilerplate you might have to write. There are many different
 ways in which you could write these helpers; use these if you want a simple
 starting point.
 
+## `router.js`
+This is a basic router that calls a callback whenever the location is updated.
+
+Example (in your top level element or document):
+```js
+import { installRouter } from '../node_modules/@polymer/redux-helpers/router.js';
+
+installRouter(() => someCallback(window.location));
+```
+
+## `network.js`
+This is a utility method that calls a callback whenever the network connectivity of the app changes.
+
+Example (in your top level element or document):
+```js
+import { installOfflineWatcher } from '../node_modules/@polymer/redux-helpers/router.js';
+
+installOfflineWatcher((offline) => {
+  this._offline.textContent = offline ? ' offline' : 'online';
+});
+```
+
 ## `connect-mixin.js`
 This is a JavaScript mixin that you can add to a Custom Element base class
 to automatically connect to a Redux store. It requires you to implement a
@@ -20,18 +42,6 @@ class MyElement extends connect(store)(HTMLElement) {
     this.count = state.data.count;
   }
 }
-```
-
-## `router.js`
-This is a basic router that calls a callback whenever the location is updated,
-so that you can store that in the state.
-
-Example (in your top level element or document):
-```js
-import { installRouter } from '../node_modules/@polymer/redux-helpers/router.js';
-import { navigate } from '../actions/app.js';
-
-installRouter(() => store.dispatch(navigate(window.location)));
 ```
 
 ## `lazy-reducer-enhancer.js`
