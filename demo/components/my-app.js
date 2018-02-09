@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import './counter-element.js';
 import { connect } from '../../connect-mixin.js';
 import { installRouter } from '../../router.js';
+import { installNetworkWatcher } from '../../network.js';
 import { store } from '../store.js';
 import { navigate, increment, decrement } from '../actions/app.js';
 
@@ -32,6 +33,12 @@ template.innerHTML = `
   <p>
   You're currently on <b><span id="pageSpan"></span></b></p>
   <a href="/demo/">home</a> | <a href="/demo/page1">page1</a> | <a href="/demo/page2">page2</a> | <a href="/demo/page3">page3</a> | <a href="/demo/lazy-reducer">lazy-reducer</a>
+
+  <h2>Network state</h2>
+  You can get notified any time the network connectivity changes.
+  You are currently <b><span id="offlineSpan"></span></b>. If you turn off your
+  wifi (or change your status to "offline" in the Chrome DevTools), this value
+  will update.
 
   <h2>Basic Redux example</h2>
   <p>This is a demo of a simple counter element, which is <i>not</i> connected to the
@@ -59,6 +66,7 @@ class MyApp extends connect(store)(HTMLElement) {
     this._counter = shadowRoot.querySelector('counter-element');
     this._page = shadowRoot.getElementById('pageSpan');
     this._loaded = shadowRoot.getElementById('didLoadSpan');
+    this._offline = shadowRoot.getElementById('offlineSpan');
     this._ready = true;
 
     // Every time the display of the counter updates, we should save
@@ -74,6 +82,10 @@ class MyApp extends connect(store)(HTMLElement) {
     // Setup the router. Do this last since this will trigger a store
     // update, and correctly update the UI.
     installRouter(() => store.dispatch(navigate(window.location)));
+
+    installNetworkWatcher((offline) => {
+      this._offline.textContent = offline ? ' offline' : 'online';
+    });
   }
 
   stateChanged(state) {

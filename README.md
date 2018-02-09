@@ -1,5 +1,5 @@
-# redux-helpers
-Small helper methods or mixins to help integrating Redux with a web-components app,
+# pwa-helpers
+Small helper methods or mixins to help build a PWA,
 and reduce the boilerplate you might have to write. There are many different
 ways in which you could write these helpers; use these if you want a simple
 starting point.
