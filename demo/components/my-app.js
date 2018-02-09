@@ -11,7 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import './counter-element.js';
 import { connect } from '../../connect-mixin.js';
 import { installRouter } from '../../router.js';
-import { installNetworkWatcher } from '../../network.js';
+import { installOfflineWatcher } from '../../network.js';
 import { store } from '../store.js';
 import { navigate, increment, decrement } from '../actions/app.js';
 
@@ -83,7 +83,7 @@ class MyApp extends connect(store)(HTMLElement) {
     // update, and correctly update the UI.
     installRouter(() => store.dispatch(navigate(window.location)));
 
-    installNetworkWatcher((offline) => {
+    installOfflineWatcher((offline) => {
       this._offline.textContent = offline ? ' offline' : 'online';
     });
   }

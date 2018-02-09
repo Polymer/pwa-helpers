@@ -14,7 +14,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   the network is offline, and offline="false" meaning online)
 
   Sample use:
-  import { installNetworkWatcher } from '../node_modules/@polymer/redux-helpers/network.js';
+  import { installOfflineWatcher } from '../node_modules/@polymer/redux-helpers/network.js';
 
   installNetworkWatcher((offline) => {
     console.log('You are ' + offline ? ' offline' : 'online');
@@ -22,7 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 */
 
-export const installNetworkWatcher = (offlineUpdatedCallback) => {
+export const installOfflineWatcher = (offlineUpdatedCallback) => {
   window.addEventListener('online', () => offlineUpdatedCallback(false));
   window.addEventListener('offline', () => offlineUpdatedCallback(true));
 
