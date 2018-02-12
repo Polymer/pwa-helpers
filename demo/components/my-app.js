@@ -46,7 +46,7 @@ template.innerHTML = `
   You can easily update your page's Open Graph and Twitter metadata. Click on the
   <a href="/demo/update-meta">update metadata</a> to update this page's; the page title
   will change, and if you inspect the <code>&lt;head&gt;</code> node of this page,
-  a set of new meta entries have been added
+  a set of new meta entries have been added.
 
   <h2>Basic Redux example</h2>
   <p>This is a demo of a simple counter element, which is <i>not</i> connected to the
