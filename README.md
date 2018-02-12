@@ -9,7 +9,7 @@ This is a basic router that calls a callback whenever the location is updated.
 
 Example (in your top level element or document):
 ```js
-import { installRouter } from '../node_modules/@polymer/redux-helpers/router.js';
+import { installRouter } from '../node_modules/@polymer/pwa-helpers/router.js';
 
 installRouter(() => someCallback(window.location));
 ```
@@ -19,7 +19,7 @@ This is a utility method that calls a callback whenever the network connectivity
 
 Example (in your top level element or document):
 ```js
-import { installOfflineWatcher } from '../node_modules/@polymer/redux-helpers/router.js';
+import { installOfflineWatcher } from '../node_modules/@polymer/pwa-helpers/router.js';
 
 installOfflineWatcher((offline) => {
   this._offline.textContent = offline ? ' offline' : 'online';
@@ -33,7 +33,7 @@ to automatically connect to a Redux store. It requires you to implement a
 
 Example (in an element):
 ```js
-import { connect } from '../node_modules/@polymer/redux-helpers/connect-mixin.js';
+import { connect } from '../node_modules/@polymer/pwa-helpers/connect-mixin.js';
 
 class MyElement extends connect(store)(HTMLElement) {
   // ...
@@ -51,7 +51,7 @@ to a Redux store.
 
 Example (in your store code):
 ```js
-import lazyReducerEnhancer from '../node_modules/@polymer/redux-helpers/lazy-reducer-enhancer.js';
+import lazyReducerEnhancer from '../node_modules/@polymer/pwa-helpers/lazy-reducer-enhancer.js';
 import someReducer from './reducers/someReducer.js';
 
 export const store = createStore(

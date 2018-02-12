@@ -12,6 +12,7 @@ import './counter-element.js';
 import { connect } from '../../connect-mixin.js';
 import { installRouter } from '../../router.js';
 import { installOfflineWatcher } from '../../network.js';
+import { updateSEOMetadata } from '../../seo-metadata.js';
 import { store } from '../store.js';
 import { navigate, increment, decrement } from '../actions/app.js';
 
@@ -32,13 +33,20 @@ template.innerHTML = `
   link will not do a page refresh, and will update the displayed page in the store. </p>
   <p>
   You're currently on <b><span id="pageSpan"></span></b></p>
-  <a href="/demo/">home</a> | <a href="/demo/page1">page1</a> | <a href="/demo/page2">page2</a> | <a href="/demo/page3">page3</a> | <a href="/demo/lazy-reducer">lazy-reducer</a>
+  <a href="/demo/">home</a> | <a href="/demo/page1">page1</a> | <a href="/demo/page2">page2</a> |
+  <a href="/demo/page3">page3</a> | <a href="/demo/lazy-reducer">lazy-reducer</a> | <a href="/demo/update-meta">update metadata</a>
 
   <h2>Network state</h2>
   You can get notified any time the network connectivity changes.
   You are currently <b><span id="offlineSpan"></span></b>. If you turn off your
   wifi (or change your status to "offline" in the Chrome DevTools), this value
   will update.
+
+  <h2>SEO metadata</h2>
+  You can easily update your page's Open Graph and Twitter metadata. Click on the
+  <a href="/demo/update-meta">update metadata</a> to update this page's; the page title
+  will change, and if you inspect the <code>&lt;head&gt;</code> node of this page,
+  a set of new meta entries have been added.
 
   <h2>Basic Redux example</h2>
   <p>This is a demo of a simple counter element, which is <i>not</i> connected to the
@@ -48,7 +56,7 @@ template.innerHTML = `
   <counter-element></counter-element>
 
   <h2>Lazy loaded reducers</h2>
-  <p>When you click on the <b>lazy-reducer</b> link, the app will lazily load a reducer
+  <p>When you click on this <a href="/demo/lazy-reducer">lazy-reducer</a> link, the app will lazily load a reducer
   which will set a new property in the store, <code>didLoad</code>. That value is
   displayed here:</p>
   <p><code>didLoad = <span id="didLoadSpan"></span></code>
@@ -67,7 +75,6 @@ class MyApp extends connect(store)(HTMLElement) {
     this._page = shadowRoot.getElementById('pageSpan');
     this._loaded = shadowRoot.getElementById('didLoadSpan');
     this._offline = shadowRoot.getElementById('offlineSpan');
-    this._ready = true;
 
     // Every time the display of the counter updates, we should save
     // these values in the store
@@ -79,8 +86,6 @@ class MyApp extends connect(store)(HTMLElement) {
       store.dispatch(decrement());
     });
 
-    // Setup the router. Do this last since this will trigger a store
-    // update, and correctly update the UI.
     installRouter(() => store.dispatch(navigate(window.location)));
 
     installOfflineWatcher((offline) => {
@@ -89,16 +94,19 @@ class MyApp extends connect(store)(HTMLElement) {
   }
 
   stateChanged(state) {
-    // The store boots up before we have stamped the template.
-    if (!this._ready) {
-      return;
-    }
-
     // If we're on the page that needs to lazy load the reducer, do that.
     if (!state.lazy && state.app.page === '/demo/lazy-reducer') {
       import('../reducers/lazy.js').then((module) => {
         const reducer = module.default;
         store.addReducers({'lazy': reducer});
+      });
+    }
+
+    if (state.app.page === '/demo/update-meta') {
+      updateSEOMetadata({
+          title: '🎁🎉 PWA helpers for all! 🎉🎁',
+          description: 'Demo of the utility methods in PWA helpers',
+          url: document.location.href
       });
     }
 
