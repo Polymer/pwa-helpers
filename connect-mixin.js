@@ -13,7 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   basic store-connection boilerplate.
 
   Sample use:
-  import { connect } from '../node_modules/@webcomponents/redux-helpers/connect-mixin.js';
+  import { connect } from '../node_modules/@webcomponents/pwa-helpers/connect-mixin.js';
 
   class MyElement extends connect(store)(HTMLElement) {
     // ...
@@ -36,7 +36,7 @@ export const connect = (store) => (baseElement) => class extends baseElement {
 
   disconnectedCallback() {
     this.__storeUnsubscribe();
-    
+
     if (super.disconnectedCallback) {
       super.disconnectedCallback();
     }
