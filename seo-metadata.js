@@ -14,7 +14,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   title | description | url | image
 
   If one of the properties isn't specified, then that metadata field will not
-  be set.=
+  be set.
 
   Sample use:
   import { updateSEOMetadata } from '../node_modules/@polymer/pwa-helpers/seo-metadata.js';

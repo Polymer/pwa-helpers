@@ -10,8 +10,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 /*
   Utility method that calls a callback whenever the network connectivity of the app changes.
-  The callback should take an `offline` parameter (with offline="true" meaning
-  the network is offline, and offline="false" meaning online)
+  The callback should take a boolean parameter (with "true" meaning
+  the network is offline, and "false" meaning online)
 
   Sample use:
   import { installOfflineWatcher } from '../node_modules/@polymer/pwa-helpers/network.js';
