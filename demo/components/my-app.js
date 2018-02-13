@@ -97,7 +97,7 @@ class MyApp extends connect(store)(HTMLElement) {
     installOfflineWatcher((offline) => {
       this._offline.textContent = offline ? ' offline' : 'online';
     });
-    installMediaQueryWatcher(`(min-width: 700px)`, (matches) => {
+    installMediaQueryWatcher(`(min-width: 600px)`, (matches) => {
       this._screen.textContent = matches ? 'wide' : 'narrow';
     });
   }

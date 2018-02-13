@@ -53,7 +53,7 @@ Example:
 ```js
 import { installMediaQueryWatcher } from '../node_modules/@polymer/pwa-helpers/media-query.js';
 
-installMediaQueryWatcher(`(min-width: 700px)`, (matches) => {
+installMediaQueryWatcher(`(min-width: 600px)`, (matches) => {
   console.log(matches ? 'wide screen' : 'narrow sreen');
 });
 ```
