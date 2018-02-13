@@ -4,17 +4,21 @@ and reduce the boilerplate you might have to write. There are many different
 ways in which you could write these helpers; use these if you want a simple
 starting point.
 
-## `router.js`
+## Basic helpers
+These are vanilla JavaScript methods that can be used regardless of which
+frameworks or libraries your application is written in.
+
+### `router.js`
 This is a basic router that calls a callback whenever the location is updated.
 
 Example (in your top level element or document):
 ```js
 import { installRouter } from '../node_modules/@polymer/pwa-helpers/router.js';
 
-installRouter(() => someCallback(window.location));
+installRouter(() => console.log(window.location));
 ```
 
-## `network.js`
+### `network.js`
 This is a utility method that calls a callback whenever the network connectivity of the app changes.
 
 Example (in your top level element or document):
@@ -22,11 +26,42 @@ Example (in your top level element or document):
 import { installOfflineWatcher } from '../node_modules/@polymer/pwa-helpers/router.js';
 
 installOfflineWatcher((offline) => {
-  this._offline.textContent = offline ? ' offline' : 'online';
+  console.log(offline ? ' offline' : 'online');
 });
 ```
 
-## `connect-mixin.js`
+### `seo-metadata.js`
+This is a utility method that updates the page's open graph and Twitter card metadata.
+
+Example (in your top level element or document, or in the router callback):
+```js
+import { updateSEOMetadata } from '../node_modules/@polymer/pwa-helpers/seo-metadata.js';
+
+updateSEOMetadata({
+    title: 'My App - view 1',
+    description: 'This is my sample app',
+    url: document.location.href,
+    image: '/assets/view1-hero.png'
+});
+```
+
+### `media-query.js`
+Utility method that calls a callback whenever a media-query matches in response
+to the viewport size changing.
+
+Example:
+```js
+import { installMediaQueryWatcher } from '../node_modules/@polymer/pwa-helpers/media-query.js';
+
+installMediaQueryWatcher(`(min-width: 700px)`, (matches) => {
+  console.log(matches ? 'wide screen' : 'narrow sreen');
+});
+```
+
+## Redux helpers
+These utility methods are useful if your application is using Redux for state management.
+
+### `connect-mixin.js`
 This is a JavaScript mixin that you can add to a Custom Element base class
 to automatically connect to a Redux store. It requires you to implement a
 `stateChanged` method, which is called every time the store state is updated.

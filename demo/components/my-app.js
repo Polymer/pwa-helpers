@@ -12,6 +12,7 @@ import './counter-element.js';
 import { connect } from '../../connect-mixin.js';
 import { installRouter } from '../../router.js';
 import { installOfflineWatcher } from '../../network.js';
+import { installMediaQueryWatcher } from '../../media-query.js';
 import { updateSEOMetadata } from '../../seo-metadata.js';
 import { store } from '../store.js';
 import { navigate, increment, decrement } from '../actions/app.js';
@@ -48,6 +49,11 @@ template.innerHTML = `
   will change, and if you inspect the <code>&lt;head&gt;</code> node of this page,
   a set of new meta entries have been added.
 
+  <h2>Media query watcher</h2>
+  You can get notified any time a specified media query matches.
+  You are currently in a <b><span id="screenSpan"></span></b> layout. If you
+  resize the window to have a width smaller than 600px, this value will update.
+
   <h2>Basic Redux example</h2>
   <p>This is a demo of a simple counter element, which is <i>not</i> connected to the
   Redux store. It represents a third-party element you could've gotten from an
@@ -75,6 +81,7 @@ class MyApp extends connect(store)(HTMLElement) {
     this._page = shadowRoot.getElementById('pageSpan');
     this._loaded = shadowRoot.getElementById('didLoadSpan');
     this._offline = shadowRoot.getElementById('offlineSpan');
+    this._screen = shadowRoot.getElementById('screenSpan');
 
     // Every time the display of the counter updates, we should save
     // these values in the store
@@ -87,9 +94,11 @@ class MyApp extends connect(store)(HTMLElement) {
     });
 
     installRouter(() => store.dispatch(navigate(window.location)));
-
     installOfflineWatcher((offline) => {
       this._offline.textContent = offline ? ' offline' : 'online';
+    });
+    installMediaQueryWatcher(`(min-width: 700px)`, (matches) => {
+      this._screen.textContent = matches ? 'wide' : 'narrow';
     });
   }
 
