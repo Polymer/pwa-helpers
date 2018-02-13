@@ -79,7 +79,7 @@ class MyElement extends connect(store)(HTMLElement) {
 }
 ```
 
-## `lazy-reducer-enhancer.js`
+### `lazy-reducer-enhancer.js`
 A Redux store enhancer that lets you lazy-install reducers after the store
 has booted up. Use this if your application lazy-loads routes that are connected
 to a Redux store.
