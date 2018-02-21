@@ -17,11 +17,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   // If you don’t have any other work to do other than dispatching an action,
   // you can write something like:
-  installRouter(() => store.dispatch(navigate(window.location)));
+  installRouter((location) => store.dispatch(navigate(location)));
 
   // If you need to do other work, you can also use this, where the
-  // _notifyPathChanged method would dispatch the store action.
-  // installRouter(someCallback.bind(this));
+  // _locationChanged method would dispatch the store action.
+  // installRouter((location) => this._locationChanged(location));
 */
 
 export const installRouter = (locationUpdatedCallback) => {
@@ -44,10 +44,10 @@ export const installRouter = (locationUpdatedCallback) => {
     e.preventDefault();
     if (href !== location.href) {
       window.history.pushState({}, '', href);
-      locationUpdatedCallback();
+      locationUpdatedCallback(window.location);
     }
   });
 
-  window.addEventListener('popstate', () => locationUpdatedCallback());
-  locationUpdatedCallback();
+  window.addEventListener('popstate', () => locationUpdatedCallback(window.location));
+  locationUpdatedCallback(window.location);
 };
