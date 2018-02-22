@@ -93,7 +93,7 @@ class MyApp extends connect(store)(HTMLElement) {
       store.dispatch(decrement());
     });
 
-    installRouter(() => store.dispatch(navigate(window.location)));
+    installRouter((location) => store.dispatch(navigate(location)));
     installOfflineWatcher((offline) => {
       this._offline.textContent = offline ? ' offline' : 'online';
     });

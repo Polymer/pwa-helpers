@@ -44,7 +44,7 @@ export const installRouter = (locationUpdatedCallback) => {
     e.preventDefault();
     if (href !== location.href) {
       window.history.pushState({}, '', href);
-      locationUpdatedCallback(window.location);
+      locationUpdatedCallback(location);
     }
   });
 

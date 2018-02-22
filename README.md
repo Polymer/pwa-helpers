@@ -15,7 +15,7 @@ Example (in your top level element or document):
 ```js
 import { installRouter } from '../node_modules/@polymer/pwa-helpers/router.js';
 
-installRouter(() => console.log(window.location));
+installRouter((location) => console.log(location));
 ```
 
 ### `network.js`
