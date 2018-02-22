@@ -23,7 +23,7 @@ This is a utility method that calls a callback whenever the network connectivity
 
 Example (in your top level element or document):
 ```js
-import { installOfflineWatcher } from '../node_modules/@polymer/pwa-helpers/router.js';
+import { installOfflineWatcher } from '../node_modules/@polymer/pwa-helpers/network.js';
 
 installOfflineWatcher((offline) => {
   console.log(offline ? ' offline' : 'online');
