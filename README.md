@@ -30,14 +30,14 @@ installOfflineWatcher((offline) => {
 });
 ```
 
-### `seo-metadata.js`
+### `metadata.js`
 This is a utility method that updates the page's open graph and Twitter card metadata.
 
 Example (in your top level element or document, or in the router callback):
 ```js
-import { updateSEOMetadata } from '../node_modules/@polymer/pwa-helpers/seo-metadata.js';
+import { updateMetadata } from '../node_modules/@polymer/pwa-helpers/metadata.js';
 
-updateSEOMetadata({
+updateMetadata({
     title: 'My App - view 1',
     description: 'This is my sample app',
     url: document.location.href,
