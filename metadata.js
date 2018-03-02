@@ -17,9 +17,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   be set.
 
   Sample use:
-  import { updateSEOMetadata } from '../node_modules/@polymer/pwa-helpers/seo-metadata.js';
+  import { updateMetadata } from '../node_modules/@polymer/pwa-helpers/metadata.js';
 
-  updateSEOMetadata({
+  updateMetadata({
       title: 'My App - view 1',
       description: 'This is my sample app',
       url: document.location.href,
@@ -28,7 +28,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 */
 
-export const updateSEOMetadata = ({title, description, url, image}) => {
+export const updateMetadata = ({title, description, url, image}) => {
   if (title) {
     document.title = title;
     _setMeta('property', 'og:title', document.title);

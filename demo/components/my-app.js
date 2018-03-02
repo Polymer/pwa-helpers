@@ -13,7 +13,7 @@ import { connect } from '../../connect-mixin.js';
 import { installRouter } from '../../router.js';
 import { installOfflineWatcher } from '../../network.js';
 import { installMediaQueryWatcher } from '../../media-query.js';
-import { updateSEOMetadata } from '../../seo-metadata.js';
+import { updateMetadata } from '../../metadata.js';
 import { store } from '../store.js';
 import { navigate, increment, decrement } from '../actions/app.js';
 
@@ -112,7 +112,7 @@ class MyApp extends connect(store)(HTMLElement) {
     }
 
     if (state.app.page === '/demo/update-meta') {
-      updateSEOMetadata({
+      updateMetadata({
           title: '🎁🎉 PWA helpers for all! 🎉🎁',
           description: 'Demo of the utility methods in PWA helpers',
           url: document.location.href
