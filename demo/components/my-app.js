@@ -114,8 +114,7 @@ class MyApp extends connect(store)(HTMLElement) {
     if (state.app.page === '/demo/update-meta') {
       updateMetadata({
           title: '🎁🎉 PWA helpers for all! 🎉🎁',
-          description: 'Demo of the utility methods in PWA helpers',
-          url: document.location.href
+          description: 'Demo of the utility methods in PWA helpers'
       });
     }
 
