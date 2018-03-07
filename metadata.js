@@ -11,9 +11,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 /*
   Utility method that updates the page's open graph and Twitter card metadata.
   It takes an object as a parameter with the following properties:
-  title | description | url | image
+  title | description | url | image.
 
-  If one of the properties isn't specified, then that metadata field will not
+  If the `url` is not specified, `document.location.href` will be used; for
+  all other properties, if they aren't specified, then that metadata field will not
   be set.
 
   Sample use:
@@ -39,14 +40,15 @@ export const updateMetadata = ({title, description, url, image}) => {
     _setMeta('property', 'og:description', description);
     _setMeta('property', 'twitter:description', document.title);
   }
-  if (url) {
-    _setMeta('property', 'og:url', url);
-    _setMeta('property', 'twitter:url', document.location.href);
-  }
+
   if (image) {
     _setMeta('property', 'og:image', image);
     _setMeta('property', 'twitter:image:src', image);
   }
+
+  url = url || document.location.href;
+  _setMeta('property', 'og:url', url);
+  _setMeta('property', 'twitter:url', url);
 }
 
 function _setMeta(attrName, attrValue, content) {
