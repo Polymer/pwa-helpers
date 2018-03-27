@@ -44,10 +44,10 @@ export const installRouter = (locationUpdatedCallback) => {
     e.preventDefault();
     if (href !== location.href) {
       window.history.pushState({}, '', href);
-      locationUpdatedCallback(location);
+      locationUpdatedCallback(location, e);
     }
   });
 
-  window.addEventListener('popstate', () => locationUpdatedCallback(window.location));
-  locationUpdatedCallback(window.location);
+  window.addEventListener('popstate', e => locationUpdatedCallback(window.location, e));
+  locationUpdatedCallback(window.location, null /* event */);
 };
