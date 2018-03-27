@@ -12,16 +12,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   Basic router that calls a callback whenever the location is updated.
 
   Sample use:
-  import { installRouter } from '../node_modules/@polymer/pwa-helpers/router.js';
-  import { navigate } from '../actions/app.js';
+  
+    import { installRouter } from '../node_modules/@polymer/pwa-helpers/router.js';
+    import { navigate } from '../actions/app.js';
 
-  // If you don’t have any other work to do other than dispatching an action,
-  // you can write something like:
-  installRouter((location) => store.dispatch(navigate(location)));
+  If you don’t have any other work to do other than dispatching an action,
+  you can write something like:
 
-  // If you need to do other work, you can also use this, where the
-  // _locationChanged method would dispatch the store action.
-  // installRouter((location) => this._locationChanged(location));
+    installRouter((location) => store.dispatch(navigate(location)));
+
+  If you need to do other work, you can also use this, where the
+  _locationChanged method would dispatch the store action.
+
+    installRouter((location) => this._locationChanged(location));
+  
+  Optionally, you can use the second argument to read the event that caused the
+  navigation. For example, you may want to scroll to top only after a link click.
+
+    installRouter((location, event) => {
+      // Only scroll to top on link clicks, not popstate events.
+      if (event && event.type === 'click') {
+        window.scrollTo(0, 0);
+      }
+      store.dispatch(navigate(location));
+    });
 */
 
 export const installRouter = (locationUpdatedCallback) => {
@@ -44,10 +58,10 @@ export const installRouter = (locationUpdatedCallback) => {
     e.preventDefault();
     if (href !== location.href) {
       window.history.pushState({}, '', href);
-      locationUpdatedCallback(location);
+      locationUpdatedCallback(location, e);
     }
   });
 
-  window.addEventListener('popstate', () => locationUpdatedCallback(window.location));
-  locationUpdatedCallback(window.location);
+  window.addEventListener('popstate', e => locationUpdatedCallback(window.location, e));
+  locationUpdatedCallback(window.location, null /* event */);
 };
