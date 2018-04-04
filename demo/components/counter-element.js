@@ -13,7 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 let template = document.createElement('template');
 template.innerHTML = `
 <p>
-  Inside the counter element. Clicked: <b><span id="clicksSpan"></span></b> times. Value is <b><span id="valueSpan"></span></b>.
+  Inside &lt;counter-element&gt;. Clicked: <b><span id="clicksSpan"></span></b> times. Value is <b><span id="valueSpan"></span></b>.
   <button id="plus">+</button>
   <button id="minus">-</button>
 </p>
