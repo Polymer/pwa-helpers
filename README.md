@@ -59,7 +59,7 @@ installMediaQueryWatcher(`(min-width: 600px)`, (matches) => {
 ```
 
 ### `axe-report.js`
-This is an [axe-core](https://github.com/dequelabs/axe-core) reporter that throws an
+This is an [axe-core](https://github.com/dequelabs/axe-core) reporter that returns an
 Error containing every a11y violation for an element. Use this if you want to
 include `axe-core` in automated Mocha tests, etc.
 
