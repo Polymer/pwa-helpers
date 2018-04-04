@@ -20,16 +20,107 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-family: 'Roboto', 'Noto', sans-serif;
         line-height: 1.5;
         min-height: 100vh;
-        max-width: 600px;
-        margin: 0 auto;
+        max-width: 800px;
         padding: 24px;
+      }
+      h2 {
+        font-size: 24px;
+        border-bottom: 1px solid #ccc;
+      }
+      code {
+        padding: 3px 5px;
+        margin: 0 2px;
+        white-space: nowrap;
+        background-color: #f8f8f8;
+        color: #E91E63;
+        border-radius: 3px;
+        font-size: 16px;
+      }
+      a:link, a:visited {
+        color: #3F51B5;
+      }
+      section {
+        margin-bottom: 44px;
+      }
+      redux-example {
+        border: 1px solid #ccc;
+        display: block;
+        padding: 20px;
       }
     </style>
   </head>
   <body>
-    <h1>Redux helpers: demos</h1>
-    <my-app></my-app>
-    <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-    <script type="module" src="./components/my-app.js"></script>
+    <h1>PWA helpers: demos</h1>
+    <p>Small helper methods or mixins to help you build web apps.</p>
+
+    <section>
+      <h2>Router</h2>
+      <p>Here are some links, to demostrate the basic router. Clicking on the
+      link will not do a page refresh, and will update the displayed page in the store. </p>
+      <p>
+      You're currently on <code id="pageSpan"></code></p>
+      <a href="/demo/">home</a> | <a href="/demo/page1">page1</a> | <a href="/demo/page2">page2</a> |
+      <a href="/demo/page3">page3</a>
+    </section>
+
+    <section>
+      <h2>Network state</h2>
+      You can get notified any time the network connectivity changes.
+      You are currently <code id="offlineSpan"></code>. If you turn off your
+      wifi (or change your status to "offline" in the Chrome DevTools), this value
+      will update.
+    </section>
+
+    <section>
+      <h2>SEO metadata</h2>
+      You can easily update your page's Open Graph and Twitter metadata. Click on this
+      <a href="/demo/update-meta">update metadata</a> link to update it; the page title
+      will change, and if you inspect the <code>&lt;head&gt;</code> node of this page,
+      a set of new meta entries have been added.
+    </section>
+
+    <section>
+      <h2>Media query watcher</h2>
+      You can get notified any time a specified media query matches.
+      You are currently in a <code id="screenSpan"></code> layout. If you
+      resize the window to have a width smaller than 600px, this value will update.
+    </section>
+
+    <section>
+      <h2>Redux examples</h2>
+
+      <h3>Connect mixin &amp; lazy reducers</h3>
+      <p>This is a demo of a Redux connected custom element, that contains another
+        non-connected element. The parent, connected element is responsible for
+        updating the state in the store, and syncing it back to the non-connected
+        element.<p>
+      <redux-example></redux-example>
+    </section>
   </body>
+  <script type="module">
+    import { installRouter } from '../router.js';
+    import { installOfflineWatcher } from '../network.js';
+    import { installMediaQueryWatcher } from '../media-query.js';
+    import { updateMetadata } from '../metadata.js';
+
+    installRouter((location) => {
+      const page = location.pathname
+      pageSpan.textContent = page;
+
+      if (page === '/demo/update-meta') {
+        updateMetadata({
+            title: '🎁🎉 PWA helpers for all! 🎉🎁',
+            description: 'Demo of the utility methods in PWA helpers'
+        });
+      }
+    });
+    installOfflineWatcher((offline) => {
+      offlineSpan.textContent = offline ? ' offline' : 'online';
+    });
+    installMediaQueryWatcher(`(min-width: 600px)`, (matches) => {
+      screenSpan.textContent = matches ? 'wide' : 'narrow';
+    });
+  </script>
+  <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+  <script type="module" src="./components/redux-example.js"></script>
 </html>
