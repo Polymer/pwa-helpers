@@ -8,11 +8,13 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-// TODO: We are using this version because standard Redux uses names not paths.
-// Investigate if we can require the user to provide their version of combineReducers.
-import createStore from '../node_modules/@0xcda7a/redux-es6/es/createStore.js';
-import origCompose from '../node_modules/@0xcda7a/redux-es6/es/compose.js';
-import combineReducers from '../node_modules/@0xcda7a/redux-es6/es/combineReducers.js';
+// Redux assumes `process.env.NODE_ENV` exists in the ES module build.
+// https://github.com/reactjs/redux/issues/2907
+window.process = { env: { NODE_ENV: 'production' } };
+
+import createStore from 'https://unpkg.com/redux/es/createStore?module';
+import combineReducers from 'https://unpkg.com/redux/es/combineReducers?module';
+import origCompose from 'https://unpkg.com/redux/es/compose?module';
 
 import { lazyReducerEnhancer } from '../lazy-reducer-enhancer.js'
 
