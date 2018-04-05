@@ -11,7 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import './counter-element.js';
 import { connect } from '../../connect-mixin.js';
 import { store } from '../store.js';
-import { navigate, increment, decrement } from '../actions/app.js';
+import { increment, decrement } from '../actions/counter.js';
 
 /*
 This is an element that is connected to the Redux store, which contains

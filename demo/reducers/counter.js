@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { INCREMENT, DECREMENT } from '../actions/app.js';
+import { INCREMENT, DECREMENT } from '../actions/counter.js';
 
 const app = (state = {clicks: 0, value: 0}, action) => {
   switch (action.type) {
