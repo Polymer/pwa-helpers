@@ -22,7 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   Sample use:
 
   import '../node_modules/axe-core/axe.min.js';
-  import { axeReport } from '../node_modules/@polymer/pwa-helpers/connect-mixin.js';
+  import { axeReport } from '../node_modules/@polymer/pwa-helpers/axe-report.js';
 
   describe('button', function() {
 
