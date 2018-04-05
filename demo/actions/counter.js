@@ -8,20 +8,17 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { NAVIGATE } from '../actions/app.js';
+export const INCREMENT = 'INCREMENT';
+export const DECREMENT = 'DECREMENT';
 
-const app = (state = {}, action) => {
-  switch (action.type) {
-    case NAVIGATE:
-      const location = action.path;
-      const page = window.decodeURIComponent(location.pathname);
-      return {
-        ...state,
-        page: page
-      };
-    default:
-      return state;
-  }
-}
+export const increment = () => {
+  return {
+    type: INCREMENT
+  };
+};
 
-export default app;
+export const decrement = () => {
+  return {
+    type: DECREMENT
+  };
+};

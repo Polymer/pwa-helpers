@@ -58,6 +58,28 @@ installMediaQueryWatcher(`(min-width: 600px)`, (matches) => {
 });
 ```
 
+## Test helpers
+Utility methods to be used inside of testing frameworks, to reduce some testing boilerplate.
+
+### `axe-report.js`
+This is an [axe-core](https://github.com/dequelabs/axe-core) reporter that returns an
+Error containing every a11y violation for an element. Use this if you want to
+include `axe-core` in automated Mocha tests, etc.
+
+Example (in a Mocha test):
+```js
+import '../node_modules/axe-core/axe.min.js';
+import { axeReport } from '../node_modules/@polymer/pwa-helpers/axe-report.js';
+
+describe('button', function() {
+  it('is accessible', function() {
+    const button = document.createElement('button');
+    button.textContent = 'click this';  // Test should fail without this line.
+    return axeReport(button);
+  });
+});
+```
+
 ## Redux helpers
 These utility methods are useful if your application is using Redux for state management.
 
