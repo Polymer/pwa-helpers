@@ -5,5 +5,7 @@
     "The Polymer Authors"
   ],
   "license": "https://polymer.github.io/LICENSE.txt",
+  "main": "pwa-helpers.js",
+  "module": "pwa-helpers.js",
   "devDependencies": {}
 }
