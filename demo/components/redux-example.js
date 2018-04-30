@@ -59,7 +59,7 @@ class ReduxExample extends connect(store)(HTMLElement) {
         () => this._loadReducer());
   }
 
-  stateChanged(state) {
+  _stateChanged(state) {
     // Update the UI.
     this._clicksSpan.textContent = this._counter.clicks = state.counter.clicks;
     this._valueSpan.textContent = this._counter.value = state.counter.value;

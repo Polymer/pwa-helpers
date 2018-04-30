@@ -86,7 +86,7 @@ These utility methods are useful if your application is using Redux for state ma
 ### `connect-mixin.js`
 This is a JavaScript mixin that you can add to a Custom Element base class
 to automatically connect to a Redux store. It requires you to implement a
-`stateChanged` method, which is called every time the store state is updated.
+`_stateChanged` method, which is called every time the store state is updated.
 
 Example (in an element):
 ```js
@@ -95,7 +95,7 @@ import { connect } from '../node_modules/@polymer/pwa-helpers/connect-mixin.js';
 class MyElement extends connect(store)(HTMLElement) {
   // ...
 
-  stateChanged(state) {
+  _stateChanged(state) {
     this.count = state.data.count;
   }
 }
