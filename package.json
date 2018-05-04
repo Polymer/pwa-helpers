@@ -1,9 +1,14 @@
 {
   "name": "pwa-helpers",
-  "version": "",
+  "version": "0.8.0",
+  "description": "Small helper methods or mixins to help you build web apps.",
   "contributors": [
     "The Polymer Authors"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polymer/pwa-helpers.git"
+  },
   "license": "https://polymer.github.io/LICENSE.txt",
   "main": "pwa-helpers.js",
   "module": "pwa-helpers.js",
