@@ -13,7 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   Sample use:
   
-    import { installRouter } from '../node_modules/@polymer/pwa-helpers/router.js';
+    import { installRouter } from '../node_modules/pwa-helpers/router.js';
     import { navigate } from '../actions/app.js';
 
   If you don’t have any other work to do other than dispatching an action,

@@ -13,7 +13,7 @@ This is a basic router that calls a callback whenever the location is updated.
 
 Example (in your top level element or document):
 ```js
-import { installRouter } from '../node_modules/@polymer/pwa-helpers/router.js';
+import { installRouter } from '../node_modules/pwa-helpers/router.js';
 
 installRouter((location) => console.log(location));
 ```
@@ -23,7 +23,7 @@ This is a utility method that calls a callback whenever the network connectivity
 
 Example (in your top level element or document):
 ```js
-import { installOfflineWatcher } from '../node_modules/@polymer/pwa-helpers/network.js';
+import { installOfflineWatcher } from '../node_modules/pwa-helpers/network.js';
 
 installOfflineWatcher((offline) => {
   console.log(offline ? ' offline' : 'online');
@@ -35,7 +35,7 @@ This is a utility method that updates the page's open graph and Twitter card met
 
 Example (in your top level element or document, or in the router callback):
 ```js
-import { updateMetadata } from '../node_modules/@polymer/pwa-helpers/metadata.js';
+import { updateMetadata } from '../node_modules/pwa-helpers/metadata.js';
 
 updateMetadata({
     title: 'My App - view 1',
@@ -51,7 +51,7 @@ to the viewport size changing.
 
 Example:
 ```js
-import { installMediaQueryWatcher } from '../node_modules/@polymer/pwa-helpers/media-query.js';
+import { installMediaQueryWatcher } from '../node_modules/pwa-helpers/media-query.js';
 
 installMediaQueryWatcher(`(min-width: 600px)`, (matches) => {
   console.log(matches ? 'wide screen' : 'narrow sreen');
@@ -69,7 +69,7 @@ include `axe-core` in automated Mocha tests, etc.
 Example (in a Mocha test):
 ```js
 import '../node_modules/axe-core/axe.min.js';
-import { axeReport } from '../node_modules/@polymer/pwa-helpers/axe-report.js';
+import { axeReport } from '../node_modules/pwa-helpers/axe-report.js';
 
 describe('button', function() {
   it('is accessible', function() {
@@ -90,7 +90,7 @@ to automatically connect to a Redux store. It requires you to implement a
 
 Example (in an element):
 ```js
-import { connect } from '../node_modules/@polymer/pwa-helpers/connect-mixin.js';
+import { connect } from '../node_modules/pwa-helpers/connect-mixin.js';
 
 class MyElement extends connect(store)(HTMLElement) {
   // ...
@@ -108,7 +108,7 @@ to a Redux store.
 
 Example (in your store code):
 ```js
-import lazyReducerEnhancer from '../node_modules/@polymer/pwa-helpers/lazy-reducer-enhancer.js';
+import lazyReducerEnhancer from '../node_modules/pwa-helpers/lazy-reducer-enhancer.js';
 import someReducer from './reducers/someReducer.js';
 
 export const store = createStore(
