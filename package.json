@@ -9,8 +9,16 @@
     "type": "git",
     "url": "git+https://github.com/polymer/pwa-helpers.git"
   },
-  "license": "https://polymer.github.io/LICENSE.txt",
+  "license": "BSD-3-Clause",
   "main": "pwa-helpers.js",
   "module": "pwa-helpers.js",
-  "devDependencies": {}
+  "devDependencies": {},
+  "bugs": {
+    "url": "https://github.com/polymer/pwa-helpers/issues"
+  },
+  "homepage": "https://github.com/polymer/pwa-helpers#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "The Polymer Authors"
 }
