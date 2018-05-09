@@ -18,7 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   be set.
 
   Sample use:
-  import { updateMetadata } from '../node_modules/@polymer/pwa-helpers/metadata.js';
+  import { updateMetadata } from '../node_modules/pwa-helpers/metadata.js';
 
   updateMetadata({
       title: 'My App - view 1',

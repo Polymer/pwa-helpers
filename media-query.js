@@ -14,7 +14,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   (with "true" meaning the media query is matched)
 
   Sample use:
-  import { installMediaQueryWatcher } from '../node_modules/@polymer/pwa-helpers/media-query.js';
+  import { installMediaQueryWatcher } from '../node_modules/pwa-helpers/media-query.js';
 
   installMediaQueryWatcher(`(min-width: 600px)`, (matches) => {
     someTextSpan.textContent = matches ? 'wide screen' : 'narrow sreen';

@@ -13,7 +13,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   basic store-connection boilerplate.
 
   Sample use:
-  import { connect } from '../node_modules/@polymer/pwa-helpers/connect-mixin.js';
+  import { connect } from '../node_modules/pwa-helpers/connect-mixin.js';
 
   class MyElement extends connect(store)(HTMLElement) {
     // ...
