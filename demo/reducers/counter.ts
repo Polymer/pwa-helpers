@@ -8,15 +8,15 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { INCREMENT, DECREMENT, counterAction } from '../actions/counter.js';
+import { INCREMENT, DECREMENT, CounterAction } from '../actions/counter.js';
 import * as r from 'redux';
 
-export interface counterState {
+export interface CounterState {
   clicks: number;
   value: number;
 }
 
-const app: r.Reducer<counterState, counterAction> = (state = {clicks: 0, value: 0}, action: r.Action) => {
+const app: r.Reducer<CounterState, CounterAction> = (state = {clicks: 0, value: 0}, action: r.Action) => {
   switch (action.type) {
     case INCREMENT:
       return {

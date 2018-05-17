@@ -9,11 +9,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 import * as r from 'redux';
 
-export interface lazyState {
+export interface LazyState {
   didLoad: boolean
 }
 // This reducer doesn't do anything other than boot up.
-const lazy:r.Reducer<lazyState> = (state = {didLoad:true}) => {
+const lazy:r.Reducer<LazyState> = (state = {didLoad:true}) => {
   return state;
 }
 
