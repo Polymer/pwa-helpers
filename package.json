@@ -22,7 +22,8 @@
   },
   "homepage": "https://github.com/polymer/pwa-helpers#readme",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "author": "The Polymer Authors"
 }
