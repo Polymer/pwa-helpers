@@ -46,7 +46,8 @@ export const lazyReducerEnhancer = function(combineReducers: typeof r.combineRed
             ...lazyReducers,
             ...newReducers
           };
-          this.replaceReducer(combineReducers(combinedReducerMap));
+
+          this.replaceReducer(combineReducers(lazyReducers = combinedReducerMap));
         }
       }
     }
