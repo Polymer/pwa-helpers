@@ -15,10 +15,6 @@ declare global {
   }
 }
 
-// Redux assumes `process.env.NODE_ENV` exists in the ES module build.
-// https://github.com/reactjs/redux/issues/2907
-window.process = { env: { NODE_ENV: 'production' } };
-
 import * as r from 'redux';
 
 import * as enhancers from '../lazy-reducer-enhancer.js'
