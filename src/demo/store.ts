@@ -17,21 +17,26 @@ declare global {
 
 import * as r from 'redux';
 import * as enhancers from '../lazy-reducer-enhancer.js'
-import { CounterAction } from './actions/counter.js';
+import * as counterActions from './actions/counter.js';
+import * as lazyActions from './actions/lazy';
 import { LazyState } from './reducers/lazy.js';
 
 // static states
-export interface AppStateCounter {
+export interface RootStateCounter {
   counter: CounterState
 }
 
 // lazy states
-export interface AppStateLazy {
+export interface RootLazyState {
   lazy: LazyState
 }
 
-// overall state extends static states and partials lazy states
-export interface AppState extends AppStateCounter, Partial<AppStateLazy> {}
+// root action is an or of all actions lazy or not. If there is no reducer
+// it will simply not execute
+type RootAction = counterActions.CounterAction | lazyActions.LazyAction;
+
+// root state extends static states and partials of lazy states
+export type RootState = RootStateCounter & Partial<RootLazyState>;
 
 // Initially loaded reducers.
 import counter, { CounterState } from './reducers/counter.js';
@@ -43,9 +48,9 @@ const newCompose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || r.compose;
 // Initializes the Redux store with a lazyReducerEnhancer (so that you can
 // lazily add reducers after the store has been created).
 export const store = r.createStore(
-  ((state) => state) as r.Reducer<AppState, CounterAction>,
+  ((state) => state) as r.Reducer<RootState, RootAction>,
   newCompose(enhancers.lazyReducerEnhancer(r.combineReducers))
 );
 
-const reducer: r.ReducersMapObject<AppStateCounter, CounterAction> = { counter };
+const reducer: r.ReducersMapObject<RootStateCounter, counterActions.CounterAction> = { counter };
 store.addReducers(reducer);
