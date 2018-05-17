@@ -10,15 +10,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import './counter-element.js';
 import { connect } from '../../connect-mixin.js';
-import { store, counterElementState } from '../store.js';
+import { store, appState, appStateLazy } from '../store.js';
 import { increment, decrement } from '../actions/counter.js';
 import * as r from 'redux';
 
-import { lazyState } from '../reducers/lazy.js';
-
-interface counterElementStateLazy {
-  lazy: lazyState
-}
 
 /*
 This is an element that is connected to the Redux store, which contains
@@ -70,7 +65,7 @@ class ReduxExample extends connect(store)(HTMLElement) {
         () => this._loadReducer());
   }
 
-  _stateChanged(state: counterElementState & counterElementStateLazy) {
+  _stateChanged(state: appState) {
     const numClicks = this._counter.clicks = state.counter.clicks;
     const value = this._counter.value = state.counter.value;
     // Update the UI.
@@ -82,7 +77,7 @@ class ReduxExample extends connect(store)(HTMLElement) {
   _loadReducer() {
     import('../reducers/lazy.js').then((module) => {
       const reducer = module.default;
-      const reducerMap: r.ReducersMapObject<counterElementStateLazy> = {'lazy': reducer};
+      const reducerMap: r.ReducersMapObject<appStateLazy> = {'lazy': reducer};
       store.addReducers(reducerMap);
     });
   }

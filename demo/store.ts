@@ -15,9 +15,28 @@ declare global {
   }
 }
 
-import * as r from 'redux';
 
+
+import * as r from 'redux';
 import * as enhancers from '../lazy-reducer-enhancer.js'
+import { counterAction } from './actions/counter.js';
+import { lazyState } from './reducers/lazy.js';
+
+// static states
+export interface appStateCounter {
+  counter: counterState
+}
+
+// lazy states
+export interface appStateLazy {
+  lazy: lazyState
+}
+
+// overall state extends static states and partials lazy states
+export interface appState extends appStateCounter, Partial<appStateLazy> {}
+
+// Initially loaded reducers.
+import counter, { counterState } from './reducers/counter.js';
 
 // Sets up a Chrome extension for time travel debugging.
 // See https://github.com/zalmoxisus/redux-devtools-extension for more information.
@@ -30,12 +49,5 @@ export const store = r.createStore(
   newCompose(enhancers.lazyReducerEnhancer(r.combineReducers))
 );
 
-// Initially loaded reducers.
-import counter, { counterState } from './reducers/counter.js';
-import { counterAction } from './actions/counter.js';
-
-export interface counterElementState {
-  counter: counterState
-}
-const reducer: r.ReducersMapObject<counterElementState, counterAction> = { counter };
+const reducer: r.ReducersMapObject<appStateCounter, counterAction> = { counter };
 store.addReducers(reducer);
