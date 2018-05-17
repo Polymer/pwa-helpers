@@ -15,8 +15,6 @@ declare global {
   }
 }
 
-
-
 import * as r from 'redux';
 import * as enhancers from '../lazy-reducer-enhancer.js'
 import { CounterAction } from './actions/counter.js';
