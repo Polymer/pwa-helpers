@@ -16,7 +16,7 @@ export interface CounterState {
   value: number;
 }
 
-const app: r.Reducer<CounterState, CounterAction> = (state = {clicks: 0, value: 0}, action: r.Action) => {
+const app: r.Reducer<CounterState, CounterAction> = (state = {clicks: 0, value: 0}, action) => {
   switch (action.type) {
     case INCREMENT:
       return {

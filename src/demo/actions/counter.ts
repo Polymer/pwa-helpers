@@ -12,11 +12,12 @@ import * as r from 'redux';
 export const INCREMENT = 'INCREMENT';
 export const DECREMENT = 'DECREMENT';
 
-export type CounterActionTypes = 'INCREMENT' | 'DECREMENT';
-export interface CounterAction extends r.Action<CounterActionTypes> {}
+export interface CounterActionIncrement extends r.Action<'INCREMENT'> {};
+export interface CounterActionDecrement extends r.Action<'DECREMENT'> {};
+export type CounterAction = CounterActionIncrement | CounterActionDecrement;
 
 export const increment = () => {
-  const action: CounterAction = {
+  const action: CounterActionIncrement = {
     type: INCREMENT
   };
 
@@ -24,7 +25,7 @@ export const increment = () => {
 };
 
 export const decrement = () => {
-  const action: CounterAction = {
+  const action: CounterActionDecrement = {
     type: DECREMENT
   };
 
