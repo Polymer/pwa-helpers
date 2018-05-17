@@ -23,8 +23,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   }
 */
+import * as redux from 'redux';
+export const connect = (store: redux.Store) => (baseElement: {new():HTMLElement}) => class extends baseElement {
+  __storeUnsubscribe: redux.Unsubscribe|undefined = undefined;
 
-export const connect = (store) => (baseElement) => class extends baseElement {
   connectedCallback() {
     // Connect the element to the store.
     this.__storeUnsubscribe = store.subscribe(() => this._stateChanged(store.getState()));
@@ -35,7 +37,7 @@ export const connect = (store) => (baseElement) => class extends baseElement {
   }
 
   disconnectedCallback() {
-    this.__storeUnsubscribe();
+    this.__storeUnsubscribe!();
 
     if (super.disconnectedCallback) {
       super.disconnectedCallback();
@@ -43,7 +45,7 @@ export const connect = (store) => (baseElement) => class extends baseElement {
   }
 
   // This is called every time something is updated in the store.
-  _stateChanged(state) {
-    throw new Error('_stateChanged() not implemented', this);
+  _stateChanged(_state: any) {
+    throw new Error('_stateChanged() not implemented');
   }
 };

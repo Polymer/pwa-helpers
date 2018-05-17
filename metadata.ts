@@ -28,8 +28,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   });
 
 */
-
-export const updateMetadata = ({title, description, url, image}) => {
+export const updateMetadata = ({title, description, url, image}: {title: string, description:string, url: string, image:string}) => {
   if (title) {
     document.title = title;
     _setMeta('property', 'og:title', document.title);
@@ -51,7 +50,7 @@ export const updateMetadata = ({title, description, url, image}) => {
   _setMeta('property', 'twitter:url', url);
 }
 
-function _setMeta(attrName, attrValue, content) {
+function _setMeta(attrName:string, attrValue:string, content:string) {
   let element = document.head.querySelector(`meta[${attrName}="${attrValue}"]`);
   if (!element) {
     element = document.createElement('meta');

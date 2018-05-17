@@ -8,9 +8,25 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-// This reducer doesn't do anything other than boot up.
-const lazy = (state = {didLoad:true}, action) => {
-  return state;
-}
+import * as r from 'redux';
+export const INCREMENT = 'INCREMENT';
+export const DECREMENT = 'DECREMENT';
 
-export default lazy;
+export type counterActionTypes = 'INCREMENT' | 'DECREMENT';
+export interface counterAction extends r.Action<counterActionTypes> {}
+
+export const increment = () => {
+  const action: counterAction = {
+    type: INCREMENT
+  };
+
+  return action
+};
+
+export const decrement = () => {
+  const action: counterAction = {
+    type: DECREMENT
+  };
+
+  return action;
+};

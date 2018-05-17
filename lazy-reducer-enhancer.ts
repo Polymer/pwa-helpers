@@ -28,20 +28,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     someReducer
   });
 */
-export const lazyReducerEnhancer = function(combineReducers) {
-  return (nextCreator) => {
+import * as r from 'redux'
+
+export interface LazyStore {
+  addReducers: (newReducers: r.ReducersMapObject) => void
+}
+
+export const lazyReducerEnhancer = function(combineReducers: typeof r.combineReducers) {
+  const enhancer: r.StoreEnhancer<LazyStore> = (nextCreator) => {
     return (origReducer, preloadedState) => {
       let lazyReducers = {};
       const nextStore = nextCreator(origReducer, preloadedState);
       return {
         ...nextStore,
         addReducers(newReducers) {
-          this.replaceReducer(combineReducers(lazyReducers = {
+          const combinedReducerMap: r.ReducersMapObject = {
             ...lazyReducers,
             ...newReducers
-          }));
+          };
+          this.replaceReducer(combineReducers(combinedReducerMap));
         }
       }
     }
   }
+
+  return enhancer;
 }
