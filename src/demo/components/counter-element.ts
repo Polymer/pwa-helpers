@@ -23,8 +23,9 @@ template.innerHTML = `
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
 class CounterElement extends HTMLElement {
-  clicks: number = 0; // The total number of clicks you've done.
-  value: number = 0; // The current value of the counter.
+  public clicks: number = 0; // The total number of clicks you've done.
+  public value: number = 0; // The current value of the counter.
+  shadowRoot!: ShadowRoot
 
   constructor() {
     super();
@@ -56,8 +57,8 @@ class CounterElement extends HTMLElement {
   }
 
   _show() {
-    this.shadowRoot!.getElementById('clicksSpan')!.textContent = this.clicks.toString();
-    this.shadowRoot!.getElementById('valueSpan')!.textContent = this.value.toString();
+    this.shadowRoot.getElementById('clicksSpan')!.textContent = this.clicks.toString();
+    this.shadowRoot.getElementById('valueSpan')!.textContent = this.value.toString();
   }
 }
 

@@ -16,18 +16,14 @@ export interface CounterActionIncrement extends r.Action<'INCREMENT'> {};
 export interface CounterActionDecrement extends r.Action<'DECREMENT'> {};
 export type CounterAction = CounterActionIncrement | CounterActionDecrement;
 
-export const increment = () => {
-  const action: CounterActionIncrement = {
+export const increment = (): CounterActionIncrement => {
+  return {
     type: INCREMENT
   };
-
-  return action
 };
 
-export const decrement = () => {
-  const action: CounterActionDecrement = {
+export const decrement = (): CounterActionDecrement => {
+  return {
     type: DECREMENT
   };
-
-  return action;
 };

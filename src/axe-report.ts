@@ -38,6 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
   });
 */
+// named differently from axe so that the library is not pulled in w/compilation
 import * as axeTypes from 'axe-core';
 
 declare global {
@@ -52,19 +53,20 @@ export interface AxeReportOptions extends axeTypes.RunOptions {
 }
 
 interface AxeReportRunOptions extends axeTypes.RunOptions {
-  resultTypes: string[]
+  resultTypes?: string[]
 }
 
 export async function axeReport(dom: axeTypes.ElementContext, config:AxeReportOptions = {}) {
   const {cleanup, axeConfig} = config;
-  const {violations} = await axe.run(dom, axeConfig || {
+  const defaultConfig: AxeReportRunOptions = {
     runOnly: {
       type: 'tag',
       values: ['wcag2a', 'wcag2aa', 'section508']
     },
     // Ignore tests that are passing.
     resultTypes: ['violations']
-  } as AxeReportRunOptions);
+  };
+  const {violations} = await axe.run(dom, axeConfig ||  defaultConfig);
   if (cleanup) {
     await cleanup();
   }

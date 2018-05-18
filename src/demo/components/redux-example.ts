@@ -39,10 +39,10 @@ template.innerHTML = `
 `
 
 class ReduxExample extends connect(store)(HTMLElement) {
-  _counter: CounterElement
-  _clicksSpan: HTMLElement
-  _valueSpan: HTMLElement
-  _didLoadSpan: HTMLElement
+  private _counter: CounterElement
+  private _clicksSpan: HTMLElement
+  private _valueSpan: HTMLElement
+  private _didLoadSpan: HTMLElement
   constructor() {
     super();
 
@@ -51,7 +51,7 @@ class ReduxExample extends connect(store)(HTMLElement) {
     shadowRoot.appendChild(document.importNode(template.content, true));
 
     // Cache some elements so that you don't qsa all the time.
-    this._counter = shadowRoot.querySelector('counter-element')!;
+    this._counter  = shadowRoot.querySelector('counter-element')!;
     this._clicksSpan = shadowRoot.getElementById('clicksSpan')!;
     this._valueSpan = shadowRoot.getElementById('valueSpan')!;
     this._didLoadSpan = shadowRoot.getElementById('didLoadSpan')!;
@@ -66,7 +66,7 @@ class ReduxExample extends connect(store)(HTMLElement) {
   }
 
   _stateChanged(state: AppState) {
-    const numClicks = this._counter.clicks = state.counter.clicks;
+    const numClicks = this._counter .clicks = state.counter.clicks;
     const value = this._counter.value = state.counter.value;
     // Update the UI.
     this._clicksSpan.textContent = numClicks.toString();

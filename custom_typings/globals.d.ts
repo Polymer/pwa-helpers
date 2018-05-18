@@ -1,12 +1,12 @@
 interface Event {
-  composedPath(): EventTarget[]
+  composedPath(): EventTarget[];
 }
 
 interface EventInit {
-  composed?: boolean
+  composed?: boolean;
 }
 
 interface HTMLElement {
-  connectedCallback(): void
-  disconnectedCallback(): void
+  connectedCallback?(): void;
+  disconnectedCallback?(): void;
 }

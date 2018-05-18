@@ -42,7 +42,7 @@ export const installRouter = (locationUpdatedCallback: (location:Location, event
     if (e.defaultPrevented || e.button !== 0 ||
         e.metaKey || e.ctrlKey || e.shiftKey) return;
 
-    const anchor = e.composedPath().filter(n => n instanceof HTMLAnchorElement && n.tagName === 'A')[0] as HTMLAnchorElement;
+    const anchor = e.composedPath().find(n => n instanceof HTMLAnchorElement && n.tagName === 'A') as HTMLAnchorElement | undefined;
     if (!anchor || anchor.target ||
         anchor.hasAttribute('download') ||
         anchor.getAttribute('rel') === 'external') return;
