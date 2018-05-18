@@ -8,13 +8,29 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 import * as r from 'redux';
+import { LazyAction, TOGGLE, FORCE_TOGGLE } from '../actions/lazy';
 
 export interface LazyState {
-  didLoad: boolean
+  didLoad: boolean,
+  toggleValue: boolean
 }
 // This reducer doesn't do anything other than boot up.
-const lazy:r.Reducer<LazyState> = (state = {didLoad:true}) => {
-  return state;
+const lazy:r.Reducer<LazyState, LazyAction> = (state = {didLoad:true, toggleValue:false}, action) => {
+  switch (action.type) {
+    case TOGGLE:
+      return {
+        ...state,
+        toggleValue: !state.toggleValue
+      }
+    case FORCE_TOGGLE:
+      return {
+        ...state,
+        toggleValue: action.value
+      }
+    default:
+      return state;
+  }
+
 }
 
 export default lazy;
