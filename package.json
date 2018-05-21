@@ -23,8 +23,7 @@
   "homepage": "https://github.com/polymer/pwa-helpers#readme",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
-    "prepublish": "npm install && npm run build"
+    "build": "tsc"
   },
   "author": "The Polymer Authors"
 }
