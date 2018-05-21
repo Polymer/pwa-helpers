@@ -39,6 +39,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   });
 */
 // named differently from axe so that the library is not pulled in w/compilation
+// TODO(emarquez): change to TS 2.9 import() types https://blogs.msdn.microsoft.com/typescript/2018/05/16/announcing-typescript-2-9-rc/
 import * as axeTypes from 'axe-core';
 
 declare global {
