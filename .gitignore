@@ -1,1 +1,5 @@
 node_modules
+!custom_typings
+**/*.d.ts
+**/*.js
+**/*.js.map

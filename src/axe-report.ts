@@ -38,14 +38,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
   });
 */
+// named differently from axe so that the library is not pulled in w/compilation
+// TODO(emarquez): change to TS 2.9 import() types https://blogs.msdn.microsoft.com/typescript/2018/05/16/announcing-typescript-2-9-rc/
+import * as axeTypes from 'axe-core';
 
-export async function axeReport(dom, config = {}) {
+declare global {
+  namespace axe {
+    const run: typeof axeTypes.run;
+  }
+}
+
+export interface AxeReportOptions extends axeTypes.RunOptions {
+  cleanup?: () => Promise<void>
+  axeConfig?: axeTypes.RunOptions
+}
+
+interface AxeReportRunOptions extends axeTypes.RunOptions {
+  resultTypes?: string[]
+}
+
+export async function axeReport(dom: axeTypes.ElementContext, config:AxeReportOptions = {}) {
   const {cleanup, axeConfig} = config;
-  const {violations} = await axe.run(dom, axeConfig || {
-    runOnly: ['wcag2a', 'wcag2aa', 'section508'],
+  const defaultConfig: AxeReportRunOptions = {
+    runOnly: {
+      type: 'tag',
+      values: ['wcag2a', 'wcag2aa', 'section508']
+    },
     // Ignore tests that are passing.
     resultTypes: ['violations']
-  });
+  };
+  const {violations} = await axe.run(dom, axeConfig ||  defaultConfig);
   if (cleanup) {
     await cleanup();
   }
@@ -56,7 +78,9 @@ export async function axeReport(dom, config = {}) {
   for (const violation of violations) {
     errorMessage.push(violation.help);
     for (const node of violation.nodes) {
-      errorMessage.push(node.failureSummary);
+      if (node.failureSummary) {
+        errorMessage.push(node.failureSummary);
+      }
       errorMessage.push(node.html);
     }
     errorMessage.push('---');

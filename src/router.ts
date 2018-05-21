@@ -12,7 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   Basic router that calls a callback whenever the location is updated.
 
   Sample use:
-  
+
     import { installRouter } from '../node_modules/pwa-helpers/router.js';
     import { navigate } from '../actions/app.js';
 
@@ -25,7 +25,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   _locationChanged method would dispatch the store action.
 
     installRouter((location) => this._locationChanged(location));
-  
+
   Optionally, you can use the second argument to read the event that caused the
   navigation. For example, you may want to scroll to top only after a link click.
 
@@ -37,13 +37,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       store.dispatch(navigate(location));
     });
 */
-
-export const installRouter = (locationUpdatedCallback) => {
+export const installRouter = (locationUpdatedCallback: (location:Location, event: Event|null) => void) => {
   document.body.addEventListener('click', e => {
     if (e.defaultPrevented || e.button !== 0 ||
         e.metaKey || e.ctrlKey || e.shiftKey) return;
 
-    const anchor = e.composedPath().filter(n => n.tagName === 'A')[0];
+    const anchor = e.composedPath().find(n => n instanceof HTMLAnchorElement && n.tagName === 'A') as HTMLAnchorElement | undefined;
     if (!anchor || anchor.target ||
         anchor.hasAttribute('download') ||
         anchor.getAttribute('rel') === 'external') return;

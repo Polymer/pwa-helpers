@@ -23,19 +23,20 @@ template.innerHTML = `
 // imagine that it could just as well be a third-party element that you
 // got from someone else.
 class CounterElement extends HTMLElement {
+  public clicks: number = 0; // The total number of clicks you've done.
+  public value: number = 0; // The current value of the counter.
+  shadowRoot!: ShadowRoot
+
   constructor() {
     super();
 
     // Stamp the template.
-    let shadowRoot = this.attachShadow({mode: 'open'});
-    this.shadowRoot.appendChild(document.importNode(template.content, true));
+    const shadowRoot = this.attachShadow({mode: 'open'});
+    shadowRoot.appendChild(document.importNode(template.content, true));
 
-    shadowRoot.getElementById('plus').addEventListener('click', () => {this._onIncrement()});
-    shadowRoot.getElementById('minus').addEventListener('click', () => {this._onDecrement()});
+    shadowRoot.getElementById('plus')!.addEventListener('click', () => {this._onIncrement()});
+    shadowRoot.getElementById('minus')!.addEventListener('click', () => {this._onDecrement()});
 
-    // Initial values.
-    this.clicks = 0; // The total number of clicks you've done.
-    this.value = 0;  // The current value of the counter.
     this._show();
   }
 
@@ -56,9 +57,12 @@ class CounterElement extends HTMLElement {
   }
 
   _show() {
-    this.shadowRoot.getElementById('clicksSpan').textContent = this.clicks;
-    this.shadowRoot.getElementById('valueSpan').textContent = this.value;
+    this.shadowRoot.getElementById('clicksSpan')!.textContent = this.clicks.toString();
+    this.shadowRoot.getElementById('valueSpan')!.textContent = this.value.toString();
   }
 }
 
+interface HTMLElementTagNameMap {
+  'counter-element': CounterElement
+}
 window.customElements.define('counter-element', CounterElement);

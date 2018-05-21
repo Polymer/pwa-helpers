@@ -10,8 +10,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import './counter-element.js';
 import { connect } from '../../connect-mixin.js';
-import { store } from '../store.js';
+import { store, AppState, AppStateLazy } from '../store.js';
 import { increment, decrement } from '../actions/counter.js';
+import * as r from 'redux';
+
 
 /*
 This is an element that is connected to the Redux store, which contains
@@ -37,39 +39,46 @@ template.innerHTML = `
 `
 
 class ReduxExample extends connect(store)(HTMLElement) {
+  private _counter: CounterElement
+  private _clicksSpan: HTMLElement
+  private _valueSpan: HTMLElement
+  private _didLoadSpan: HTMLElement
   constructor() {
     super();
 
     // Stamp the template.
-    let shadowRoot = this.attachShadow({mode: 'open'});
-    this.shadowRoot.appendChild(document.importNode(template.content, true));
+    let shadowRoot = this.attachShadow({mode: 'open'})!;
+    shadowRoot.appendChild(document.importNode(template.content, true));
 
     // Cache some elements so that you don't qsa all the time.
-    this._counter = shadowRoot.querySelector('counter-element');
-    this._clicksSpan = shadowRoot.getElementById('clicksSpan');
-    this._valueSpan = shadowRoot.getElementById('valueSpan');
-    this._didLoadSpan = shadowRoot.getElementById('didLoadSpan');
+    this._counter = shadowRoot.querySelector('counter-element')!;
+    this._clicksSpan = shadowRoot.getElementById('clicksSpan')!;
+    this._valueSpan = shadowRoot.getElementById('valueSpan')!;
+    this._didLoadSpan = shadowRoot.getElementById('didLoadSpan')!;
 
     // Every time the display of the counter updates, we should save
     // these values in the store.
     this.addEventListener('counter-incremented', () => store.dispatch(increment()));
     this.addEventListener('counter-decremented', () => store.dispatch(decrement()));
 
-    shadowRoot.querySelector('button').addEventListener('click',
+    shadowRoot.querySelector('button')!.addEventListener('click',
         () => this._loadReducer());
   }
 
-  _stateChanged(state) {
+  _stateChanged(state: AppState) {
+    const numClicks = this._counter .clicks = state.counter.clicks;
+    const value = this._counter.value = state.counter.value;
     // Update the UI.
-    this._clicksSpan.textContent = this._counter.clicks = state.counter.clicks;
-    this._valueSpan.textContent = this._counter.value = state.counter.value;
-    this._didLoadSpan.textContent = state.lazy ? state.lazy.didLoad : 'undefined';
+    this._clicksSpan.textContent = numClicks.toString();
+    this._valueSpan.textContent = value.toString();
+    this._didLoadSpan.textContent = state.lazy ? state.lazy.didLoad.toString() : 'undefined';
   }
 
   _loadReducer() {
     import('../reducers/lazy.js').then((module) => {
       const reducer = module.default;
-      store.addReducers({'lazy': reducer});
+      const reducerMap: r.ReducersMapObject<AppStateLazy> = {'lazy': reducer};
+      store.addReducers(reducerMap);
     });
   }
 

@@ -22,7 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 */
 
-export const installOfflineWatcher = (offlineUpdatedCallback) => {
+export const installOfflineWatcher = (offlineUpdatedCallback: (isOffline: boolean) => void) => {
   window.addEventListener('online', () => offlineUpdatedCallback(false));
   window.addEventListener('offline', () => offlineUpdatedCallback(true));
 
