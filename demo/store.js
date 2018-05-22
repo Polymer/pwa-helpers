@@ -12,9 +12,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 // https://github.com/reactjs/redux/issues/2907
 window.process = { env: { NODE_ENV: 'production' } };
 
-import createStore from 'https://unpkg.com/redux/es/createStore?module';
-import combineReducers from 'https://unpkg.com/redux/es/combineReducers?module';
-import origCompose from 'https://unpkg.com/redux/es/compose?module';
+import createStore from 'https://unpkg.com/redux@3.7.2/es/createStore?module';
+import combineReducers from 'https://unpkg.com/redux@3.7.2/es/combineReducers?module';
+import origCompose from 'https://unpkg.com/redux@3.7.2/es/compose?module';
 
 import { lazyReducerEnhancer } from '../lazy-reducer-enhancer.js'
 
