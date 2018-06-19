@@ -31,7 +31,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   calling the callback with the new location:
 
     window.history.pushState({}, '', '/new-route');
-    this._updateLocation(window.location);
+    _locationChanged(window.location);
 
   Optionally, you can use the second argument to read the event that caused the
   navigation. For example, you may want to scroll to top only after a link click.
