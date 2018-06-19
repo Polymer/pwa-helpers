@@ -27,11 +27,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
   If you need to force a navigation to a new location programmatically, you can
-  do so by pushing a new state using the History API:
+  do so by pushing a new state using the History API, and then manually
+  calling the callback with the new location:
 
-    window.history.pushState(null, document.title, '/new-route');
-    window.dispatchEvent(new PopStateEvent('popstate'));
-
+    window.history.pushState({}, '', '/new-route');
+    this._updateLocation(window.location);
 
   Optionally, you can use the second argument to read the event that caused the
   navigation. For example, you may want to scroll to top only after a link click.
