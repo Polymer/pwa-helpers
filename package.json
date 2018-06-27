@@ -1,6 +1,6 @@
 {
   "name": "pwa-helpers",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Small helper methods or mixins to help you build web apps.",
   "contributors": [
     "The Polymer Authors"
