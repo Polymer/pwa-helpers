@@ -43,3 +43,5 @@ export const lazyReducerEnhancer = function(combineReducers) {
     }
   }
 }
+
+export default lazyReducerEnhancer
