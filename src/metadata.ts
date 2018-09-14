@@ -36,6 +36,7 @@ export const updateMetadata = ({title, description, url, image}: {title: string,
   }
 
   if (description) {
+    _setMeta('name', 'description', description);
     _setMeta('property', 'og:description', description);
     _setMeta('property', 'twitter:description', description);
   }
