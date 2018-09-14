@@ -15,7 +15,7 @@
   "devDependencies": {
     "axe-core": "^3.0.2",
     "redux": "^4.0.0",
-    "typescript": "^2.8.3"
+    "typescript": "^3.0.3"
   },
   "bugs": {
     "url": "https://github.com/polymer/pwa-helpers/issues"
