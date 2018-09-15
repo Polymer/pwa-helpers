@@ -28,7 +28,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   });
 
 */
-export const updateMetadata = ({title, description, url, image}: {title: string, description:string, url: string, image:string}) => {
+export const updateMetadata = ({title, description, url, image}: {title?: string, description?: string, url?: string, image?: string}) => {
   if (title) {
     document.title = title;
     _setMeta('property', 'og:title', document.title);
