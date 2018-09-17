@@ -62,7 +62,4 @@ class CounterElement extends HTMLElement {
   }
 }
 
-interface HTMLElementTagNameMap {
-  'counter-element': CounterElement
-}
 window.customElements.define('counter-element', CounterElement);

@@ -51,7 +51,7 @@ class ReduxExample extends connect(store)(HTMLElement) {
     shadowRoot.appendChild(document.importNode(template.content, true));
 
     // Cache some elements so that you don't qsa all the time.
-    this._counter = shadowRoot.querySelector('counter-element')!;
+    this._counter = shadowRoot.querySelector('counter-element')! as CounterElement;
     this._clicksSpan = shadowRoot.getElementById('clicksSpan')!;
     this._valueSpan = shadowRoot.getElementById('valueSpan')!;
     this._didLoadSpan = shadowRoot.getElementById('didLoadSpan')!;
