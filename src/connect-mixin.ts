@@ -24,7 +24,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   }
 */
 import * as r from 'redux';
-export const connect = <S>(store: r.Store<S>) => (baseElement: {new():HTMLElement}) => class extends baseElement {
+
+type Constructor<T> = new(...args: any[]) => T;
+
+export const connect = <S>(store: r.Store<S>) => <T extends Constructor<HTMLElement>>(baseElement: T) => class extends baseElement {
   __storeUnsubscribe: r.Unsubscribe|undefined = undefined;
 
   connectedCallback() {
