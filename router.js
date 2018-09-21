@@ -45,7 +45,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
 */
 
-export const installRouter = (locationUpdatedCallback) => {
+export const installRouter = (locationUpdatedCallback, redirectsMapping) => {
+  const getRedirect = (path) =>
+    redirectsMapping.find((redirect) =>
+      Array.isArray(redirect.from) ?
+        redirect.from.includes(path) :
+        redirect.from === path);
+
   document.body.addEventListener('click', e => {
     if (e.defaultPrevented || e.button !== 0 ||
         e.metaKey || e.ctrlKey || e.shiftKey) return;
@@ -63,12 +69,30 @@ export const installRouter = (locationUpdatedCallback) => {
     if (href.indexOf(origin) !== 0) return;
 
     e.preventDefault();
-    if (href !== location.href) {
+
+    if (href === location.href) return;
+
+    window.history.pushState({}, '', href);
+
+    const newPathname = location.pathname;
+
+    const redirectMapping = getRedirect(newPathname, redirectsMapping);
+
+    if (redirectMapping) {
+      window.history.replaceState({}, '', redirectMapping.to);
+    } else {
       window.history.pushState({}, '', href);
-      locationUpdatedCallback(location, e);
     }
+    locationUpdatedCallback(location, e);
   });
 
+  const redirectMapping = getRedirect(window.location.pathname, redirectsMapping);
+
+  if (redirectMapping) {
+    window.history.replaceState({}, '', redirectMapping.to);
+  }
+
   window.addEventListener('popstate', e => locationUpdatedCallback(window.location, e));
+  
   locationUpdatedCallback(window.location, null /* event */);
 };
