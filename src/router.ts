@@ -8,6 +8,12 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
+
+export interface RedirectMapping {
+  from: string | string[];
+  to: string;
+}
+
 /*
   Basic router that calls a callback whenever the location is updated.
 
@@ -44,7 +50,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       store.dispatch(navigate(location));
     });
 */
-export const installRouter = (locationUpdatedCallback: (location:Location, event: Event|null) => void) => {
+export const installRouter = (locationUpdatedCallback: (location:Location, event: Event|null) => void, redirectsMapping: RedirectMapping[] = []) => {
+  const getRedirect = (path: string) =>
+    redirectsMapping.find((redirect) =>
+      Array.isArray(redirect.from) ?
+        redirect.from.includes(path) :
+        redirect.from === path);
+
   document.body.addEventListener('click', e => {
     if (e.defaultPrevented || e.button !== 0 ||
         e.metaKey || e.ctrlKey || e.shiftKey) return;
@@ -64,11 +76,27 @@ export const installRouter = (locationUpdatedCallback: (location:Location, event
     if (href.indexOf(origin) !== 0) return;
 
     e.preventDefault();
-    if (href !== location.href) {
+
+    if (href === location.href) return;
+
+    window.history.pushState({}, '', href);
+
+    const newPathname = location.pathname;
+
+    const redirectMapping = getRedirect(newPathname);
+
+    if (redirectMapping) {
+      window.history.replaceState({}, '', redirectMapping.to);
+    } else {
       window.history.pushState({}, '', href);
-      locationUpdatedCallback(location, e);
     }
+    locationUpdatedCallback(location, e);
   });
+
+  const redirectMapping = getRedirect(window.location.pathname);
+  if (redirectMapping) {
+    window.history.replaceState({}, '', redirectMapping.to);
+  }
 
   window.addEventListener('popstate', e => locationUpdatedCallback(window.location, e));
   locationUpdatedCallback(window.location, null /* event */);
