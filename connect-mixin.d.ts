@@ -20,7 +20,7 @@ import { ILazyReducerStore } from "./lazy-reducer-enhancer";
   }
 */
 export declare function connect<S, A extends Action = AnyAction>(
-  store: Store<S, A> | ILazyReducerStore<S, A>
+  store: Store<S, A>
 ): <B>(baseElement: B) => B & IElementWithReduxStore<S>;
 export declare function connect<S, A extends Action = AnyAction>(
   store: ILazyReducerStore<S, A>
