@@ -46,6 +46,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 export const installRouter = (locationUpdatedCallback, redirectsMapping) => {
+  redirectsMapping = redirectsMapping || [];
+
   const getRedirect = (path) =>
     redirectsMapping.find((redirect) =>
       Array.isArray(redirect.from) ?
