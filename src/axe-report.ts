@@ -38,26 +38,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
   });
 */
-// named differently from axe so that the library is not pulled in w/compilation
-// TODO(emarquez): change to TS 2.9 import() types https://blogs.msdn.microsoft.com/typescript/2018/05/16/announcing-typescript-2-9-rc/
-import * as axeTypes from 'axe-core';
+import { ElementContext, RunOptions } from 'axe-core';
 
 declare global {
   namespace axe {
-    const run: typeof axeTypes.run;
+    const run: typeof import('axe-core').run;
   }
 }
 
-export interface AxeReportOptions extends axeTypes.RunOptions {
+export interface AxeReportOptions extends RunOptions {
   cleanup?: () => Promise<void>
-  axeConfig?: axeTypes.RunOptions
+  axeConfig?: RunOptions
 }
 
-interface AxeReportRunOptions extends axeTypes.RunOptions {
+interface AxeReportRunOptions extends RunOptions {
   resultTypes?: string[]
 }
 
-export async function axeReport(dom: axeTypes.ElementContext, config:AxeReportOptions = {}) {
+export async function axeReport(dom: ElementContext, config:AxeReportOptions = {}) {
   const {cleanup, axeConfig} = config;
   const defaultConfig: AxeReportRunOptions = {
     runOnly: {

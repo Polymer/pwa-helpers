@@ -12,7 +12,7 @@ import './counter-element.js';
 import { connect } from '../../connect-mixin.js';
 import { store, AppState, AppStateLazy } from '../store.js';
 import { increment, decrement } from '../actions/counter.js';
-import * as r from 'redux';
+import { ReducersMapObject } from 'redux';
 
 
 /*
@@ -77,7 +77,7 @@ class ReduxExample extends connect(store)(HTMLElement) {
   _loadReducer() {
     import('../reducers/lazy.js').then((module) => {
       const reducer = module.default;
-      const reducerMap: r.ReducersMapObject<AppStateLazy> = {'lazy': reducer};
+      const reducerMap: ReducersMapObject<AppStateLazy> = {'lazy': reducer};
       store.addReducers(reducerMap);
     });
   }

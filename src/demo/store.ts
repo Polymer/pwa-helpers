@@ -11,12 +11,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 declare global {
   interface Window {
     process?: Object;
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof r.compose;
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
   }
 }
 
-import * as r from 'redux';
-import * as enhancers from '../lazy-reducer-enhancer.js'
+import {
+  combineReducers,
+  compose,
+  createStore,
+  Reducer,
+  ReducersMapObject
+} from 'redux';
+import { lazyReducerEnhancer } from '../lazy-reducer-enhancer.js'
 import { CounterAction } from './actions/counter.js';
 import { LazyState } from './reducers/lazy.js';
 
@@ -38,14 +44,14 @@ import counter, { CounterState } from './reducers/counter.js';
 
 // Sets up a Chrome extension for time travel debugging.
 // See https://github.com/zalmoxisus/redux-devtools-extension for more information.
-const newCompose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || r.compose;
+const devCompose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 // Initializes the Redux store with a lazyReducerEnhancer (so that you can
 // lazily add reducers after the store has been created).
-export const store = r.createStore(
-  ((state) => state) as r.Reducer<AppState, CounterAction>,
-  newCompose(enhancers.lazyReducerEnhancer(r.combineReducers))
+export const store = createStore(
+  state => state as Reducer<AppState, CounterAction>,
+  devCompose(lazyReducerEnhancer(combineReducers))
 );
 
-const reducer: r.ReducersMapObject<AppStateCounter, CounterAction> = { counter };
+const reducer: ReducersMapObject<AppStateCounter, CounterAction> = { counter };
 store.addReducers(reducer);

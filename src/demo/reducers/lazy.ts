@@ -7,13 +7,13 @@ The complete set of contributors may be found at http://polymer.github.io/CONTRI
 Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
-import * as r from 'redux';
+import { Reducer } from 'redux';
 
 export interface LazyState {
   didLoad: boolean
 }
 // This reducer doesn't do anything other than boot up.
-const lazy:r.Reducer<LazyState> = (state = {didLoad:true}) => {
+const lazy: Reducer<LazyState> = (state = {didLoad:true}) => {
   return state;
 }
 

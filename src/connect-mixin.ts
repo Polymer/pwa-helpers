@@ -23,32 +23,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   }
 */
-import * as r from 'redux';
+import { Store, Unsubscribe } from 'redux';
 
 type Constructor<T> = new(...args: any[]) => T;
 
-export const connect = <S>(store: r.Store<S>) => <T extends Constructor<HTMLElement>>(baseElement: T) => class extends baseElement {
-  __storeUnsubscribe: r.Unsubscribe|undefined;
+export const connect =
+  <S>(store: Store<S>) =>
+  <T extends Constructor<HTMLElement>>(baseElement: T) =>
+  class extends baseElement {
+    __storeUnsubscribe!: Unsubscribe;
 
-  connectedCallback() {
-    // Connect the element to the store.
-    this.__storeUnsubscribe = store.subscribe(() => this._stateChanged(store.getState()));
-    this._stateChanged(store.getState());
-    if (super.connectedCallback) {
-      super.connectedCallback();
+    connectedCallback() {
+      // Connect the element to the store.
+      this.__storeUnsubscribe = store.subscribe(() => this._stateChanged(store.getState()));
+      this._stateChanged(store.getState());
+      if (super.connectedCallback) {
+        super.connectedCallback();
+      }
     }
-  }
 
-  disconnectedCallback() {
-    this.__storeUnsubscribe!();
+    disconnectedCallback() {
+      this.__storeUnsubscribe();
 
-    if (super.disconnectedCallback) {
-      super.disconnectedCallback();
+      if (super.disconnectedCallback) {
+        super.disconnectedCallback();
+      }
     }
-  }
 
-  // This is called every time something is updated in the store.
-  _stateChanged(_state: S) {
-    throw new Error('_stateChanged() not implemented');
-  }
-};
+    // This is called every time something is updated in the store.
+    _stateChanged(_state: S) {
+      throw new Error('_stateChanged() not implemented');
+    }
+  };
