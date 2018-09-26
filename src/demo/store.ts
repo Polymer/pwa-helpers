@@ -19,8 +19,7 @@ import {
   combineReducers,
   compose,
   createStore,
-  Reducer,
-  ReducersMapObject
+  Reducer
 } from 'redux';
 import { lazyReducerEnhancer } from '../lazy-reducer-enhancer.js'
 import { CounterAction } from './actions/counter.js';
@@ -53,5 +52,6 @@ export const store = createStore(
   devCompose(lazyReducerEnhancer(combineReducers))
 );
 
-const reducer: ReducersMapObject<AppStateCounter, CounterAction> = { counter };
-store.addReducers(reducer);
+store.addReducers({
+  counter
+});

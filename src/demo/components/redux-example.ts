@@ -66,7 +66,7 @@ class ReduxExample extends connect(store)(HTMLElement) {
   }
 
   _stateChanged(state: AppState) {
-    const numClicks = this._counter .clicks = state.counter.clicks;
+    const numClicks = this._counter.clicks = state.counter.clicks;
     const value = this._counter.value = state.counter.value;
     // Update the UI.
     this._clicksSpan.textContent = numClicks.toString();
