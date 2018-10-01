@@ -8,29 +8,50 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-// Redux assumes `process.env.NODE_ENV` exists in the ES module build.
-// https://github.com/reactjs/redux/issues/2907
-window.process = { env: { NODE_ENV: 'production' } };
+declare global {
+  interface Window {
+    process?: Object;
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
 
-import createStore from 'https://unpkg.com/redux@3.7.2/es/createStore?module';
-import combineReducers from 'https://unpkg.com/redux@3.7.2/es/combineReducers?module';
-import origCompose from 'https://unpkg.com/redux@3.7.2/es/compose?module';
-
+import {
+  combineReducers,
+  compose,
+  createStore,
+  Reducer
+} from 'redux';
 import { lazyReducerEnhancer } from '../lazy-reducer-enhancer.js'
+import { CounterAction } from './actions/counter.js';
+import { LazyState } from './reducers/lazy.js';
+
+// static states
+export interface AppStateCounter {
+  counter: CounterState
+}
+
+// lazy states
+export interface AppStateLazy {
+  lazy: LazyState
+}
+
+// overall state extends static states and partials lazy states
+export interface AppState extends AppStateCounter, Partial<AppStateLazy> {}
+
+// Initially loaded reducers.
+import counter, { CounterState } from './reducers/counter.js';
 
 // Sets up a Chrome extension for time travel debugging.
 // See https://github.com/zalmoxisus/redux-devtools-extension for more information.
-const compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || origCompose;
+const devCompose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 // Initializes the Redux store with a lazyReducerEnhancer (so that you can
 // lazily add reducers after the store has been created).
 export const store = createStore(
-  (state, action) => state,
-  compose(lazyReducerEnhancer(combineReducers))
+  state => state as Reducer<AppState, CounterAction>,
+  devCompose(lazyReducerEnhancer(combineReducers))
 );
 
-// Initially loaded reducers.
-import counter from './reducers/counter.js';
 store.addReducers({
   counter
 });

@@ -48,6 +48,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 20px;
       }
     </style>
+    <script>
+      // Redux assumes `process.env.NODE_ENV` exists in the ES module build.
+      // https://github.com/reactjs/redux/issues/2907
+      window.process = { env: { NODE_ENV: 'production' } };
+    </script>
   </head>
   <body>
     <h1>PWA helpers: demos</h1>
@@ -113,38 +118,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </section>
   </body>
 
-  <script type="module">
-    import { installRouter } from '../router.js';
-    import { installOfflineWatcher } from '../network.js';
-    import { installMediaQueryWatcher } from '../media-query.js';
-    import { updateMetadata } from '../metadata.js';
-    import { axeReport } from '../axe-report.js';
-
-    (async function() {
-      axeReport(document.getElementById('testButton')).then(
-        (e) => {},
-        (e) => { document.getElementById('axeReportOutput').textContent = e }
-       );
-    })();
-
-    installRouter((location) => {
-      const page = location.pathname
-      pageSpan.textContent = page;
-
-      if (page === '/demo/update-meta') {
-        updateMetadata({
-            title: '🎁🎉 PWA helpers for all! 🎉🎁',
-            description: 'Demo of the utility methods in PWA helpers'
-        });
-      }
-    });
-    installOfflineWatcher((offline) => {
-      offlineSpan.textContent = offline ? ' offline' : 'online';
-    });
-    installMediaQueryWatcher(`(min-width: 600px)`, (matches) => {
-      screenSpan.textContent = matches ? 'wide' : 'narrow';
-    });
-  </script>
+  <script type="module" src="./index.js"></script>
   <script src="https://unpkg.com/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
   <script type="module" src="./components/redux-example.js"></script>
   <script src="https://unpkg.com/axe-core/axe.min.js"></script>

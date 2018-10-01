@@ -8,17 +8,14 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-export const INCREMENT = 'INCREMENT';
-export const DECREMENT = 'DECREMENT';
+import { Reducer } from 'redux';
 
-export const increment = () => {
-  return {
-    type: INCREMENT
-  };
-};
+export interface LazyState {
+  didLoad: boolean
+}
+// This reducer doesn't do anything other than boot up.
+const lazy: Reducer<LazyState> = (state = {didLoad:true}) => {
+  return state;
+}
 
-export const decrement = () => {
-  return {
-    type: DECREMENT
-  };
-};
+export default lazy;
