@@ -9,17 +9,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 /*
-  Mixin for connecting an element to the Redux store; implements the
-  basic store-connection boilerplate.
+  This is a JavaScript mixin that you can use to connect a Custom Element base class
+  to a Redux store. You can implement a `mapStateToProps` method which returns an object
+  that maps state to element properties that should be set.
 
-  Sample use:
-  import { ReduxMixin } from '../node_modules/pwa-helpers/redux-mixin.js';
+  Example (in an element):
+  import { ReduxMixin } from 'pwa-helpers/redux-mixin.js';
 
-  class MyElement extends connect(store)(HTMLElement) {
+  class MyElement extends ReduxMixin(store)(HTMLElement) {
     // ...
 
     mapStateToProps(state) {
-      return { count: state.data.count };
+      return {
+        count: state.data.count
+      };
     }
   }
 */

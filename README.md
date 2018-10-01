@@ -83,20 +83,22 @@ describe('button', function() {
 ## Redux helpers
 These utility methods are useful if your application is using Redux for state management.
 
-### `connect-mixin.js`
-This is a JavaScript mixin that you can add to a Custom Element base class
-to automatically connect to a Redux store. It requires you to implement a
-`_stateChanged` method, which is called every time the store state is updated.
+### `redux-mixin.js`
+This is a JavaScript mixin that you can use to connect a Custom Element base class
+to a Redux store. You can implement a `mapStateToProps` method which returns an object
+that maps state to element properties that should be set.
 
 Example (in an element):
 ```js
-import { connect } from '../node_modules/pwa-helpers/connect-mixin.js';
+import { ReduxMixin } from 'pwa-helpers/redux-mixin.js';
 
-class MyElement extends connect(store)(HTMLElement) {
+class MyElement extends ReduxMixin(store)(HTMLElement) {
   // ...
 
-  _stateChanged(state) {
-    this.count = state.data.count;
+  mapStateToProps(state) {
+    return {
+      count: state.data.count
+    };
   }
 }
 ```

@@ -14,3 +14,4 @@ export { installMediaQueryWatcher } from './media-query.js';
 export { updateMetadata } from './metadata.js';
 export { installOfflineWatcher } from './network.js';
 export { installRouter } from './router.js';
+export { ReduxMixin } from './redux-mixin.js';
