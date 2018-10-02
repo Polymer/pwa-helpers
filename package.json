@@ -14,15 +14,18 @@
   "module": "pwa-helpers.js",
   "devDependencies": {
     "axe-core": "^3.0.2",
+    "mocha": "^5.2.0",
+    "polymer-cli": "^1.8.0",
     "redux": "^4.0.0",
-    "typescript": "^3.0.3"
+    "typescript": "^3.0.3",
+    "wct-browser-legacy": "^1.0.1"
   },
   "bugs": {
     "url": "https://github.com/polymer/pwa-helpers/issues"
   },
   "homepage": "https://github.com/polymer/pwa-helpers#readme",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tsc && polymer test --module-resolution=node --npm",
     "build": "tsc"
   },
   "author": "The Polymer Authors"

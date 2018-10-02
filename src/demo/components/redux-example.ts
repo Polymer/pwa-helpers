@@ -10,9 +10,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import './counter-element.js';
 import { connect } from '../../connect-mixin.js';
-import { store, AppState, AppStateLazy } from '../store.js';
+import { store, AppState } from '../store.js';
 import { increment, decrement } from '../actions/counter.js';
-import { ReducersMapObject } from 'redux';
+import { bindActionCreators } from 'redux';
 
 
 /*
@@ -43,6 +43,9 @@ class ReduxExample extends connect(store)(HTMLElement) {
   private _clicksSpan: HTMLElement
   private _valueSpan: HTMLElement
   private _didLoadSpan: HTMLElement
+  onIncrement!: Function
+  onDecrement!: Function
+
   constructor() {
     super();
 
@@ -58,27 +61,45 @@ class ReduxExample extends connect(store)(HTMLElement) {
 
     // Every time the display of the counter updates, we should save
     // these values in the store.
-    this.addEventListener('counter-incremented', () => store.dispatch(increment()));
-    this.addEventListener('counter-decremented', () => store.dispatch(decrement()));
+    this.addEventListener('counter-incremented', () => this.onIncrement());
+    this.addEventListener('counter-decremented', () => this.onDecrement());
 
     shadowRoot.querySelector('button')!.addEventListener('click',
         () => this._loadReducer());
   }
 
-  _stateChanged(state: AppState) {
-    const numClicks = this._counter.clicks = state.counter.clicks;
-    const value = this._counter.value = state.counter.value;
-    // Update the UI.
-    this._clicksSpan.textContent = numClicks.toString();
-    this._valueSpan.textContent = value.toString();
-    this._didLoadSpan.textContent = state.lazy ? state.lazy.didLoad.toString() : 'undefined';
+  set numClicks(_numClicks: number) {
+    this._counter.clicks = _numClicks;
+    this._clicksSpan.textContent = _numClicks.toString();
   }
 
-  _loadReducer() {
+  set value(_value: number) {
+    this._counter.value = _value;
+    this._valueSpan.textContent = _value.toString();
+  }
+
+  set didLoad(_didLoad: string) {
+    this._didLoadSpan.textContent = _didLoad;
+  }
+
+  mapStateToProps(state: AppState) {
+    return {
+      numClicks: state.counter.clicks,
+      value: state.counter.value,
+      didLoad: state.lazy ? state.lazy.didLoad.toString() : 'undefined'
+    };
+  }
+
+  mapDispatchToProps(dispatch: typeof store.dispatch) {
+    return bindActionCreators({
+      onIncrement: increment,
+      onDecrement: decrement
+    }, dispatch);
+  }
+
+  private _loadReducer() {
     import('../reducers/lazy.js').then((module) => {
-      const reducer = module.default;
-      const reducerMap: ReducersMapObject<AppStateLazy> = {'lazy': reducer};
-      store.addReducers(reducerMap);
+      store.addReducers({ lazy: module.default });
     });
   }
 

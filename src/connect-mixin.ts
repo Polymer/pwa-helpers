@@ -9,17 +9,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 /*
-  Mixin for connecting an element to the Redux store; implements the
-  basic store-connection boilerplate.
+  This is a JavaScript mixin that you can use to connect a Custom Element base class
+  to a Redux store. You can implement `mapStateToProps(state)` and
+  `mapDispatchToProps(dispatch)` methods to connect the element to the store.
 
-  Sample use:
   import { connect } from '../node_modules/pwa-helpers/connect-mixin.js';
 
   class MyElement extends connect(store)(HTMLElement) {
     // ...
 
-    _stateChanged(state) {
-      this.count = state.data.count;
+    mapStateToProps(state) {
+      return {
+        count: state.data.count
+      };
+    }
+
+    mapDispatchToProps(dispatch) {
+      return {
+        onIncrement: count => dispatch(increment(count))
+      };
+    }
+  }
+
+  Alternatively, you can implement a `stateChanged(state)` method which is called when
+  the state is updated. If you implement this method, `mapStateToProps(state)` won't
+  be used.
+
+  import { connect } from '../node_modules/pwa-helpers/connect-mixin.js';
+
+  class MyElement extends connect(store)(HTMLElement) {
+    stateChanged(state) {
+      this.textContent = state.data.count.toString();
     }
   }
 */
@@ -31,27 +51,39 @@ export const connect =
   <S>(store: Store<S>) =>
   <T extends Constructor<HTMLElement>>(baseElement: T) =>
   class extends baseElement {
-    __storeUnsubscribe!: Unsubscribe;
+    _storeUnsubscribe!: Unsubscribe;
+
+    constructor(...args: any[]) {
+      super(...args);
+      Object.assign(this, this.mapDispatchToProps(store.dispatch));
+    }
 
     connectedCallback() {
-      // Connect the element to the store.
-      this.__storeUnsubscribe = store.subscribe(() => this._stateChanged(store.getState()));
-      this._stateChanged(store.getState());
       if (super.connectedCallback) {
         super.connectedCallback();
       }
+
+      this._storeUnsubscribe = store.subscribe(() => this.stateChanged(store.getState()));
+      this.stateChanged(store.getState());
     }
 
     disconnectedCallback() {
-      this.__storeUnsubscribe();
+      this._storeUnsubscribe();
 
       if (super.disconnectedCallback) {
         super.disconnectedCallback();
       }
     }
 
-    // This is called every time something is updated in the store.
-    _stateChanged(_state: S) {
-      throw new Error('_stateChanged() not implemented');
+    stateChanged(state: S) {
+      Object.assign(this, this.mapStateToProps(state));
+    }
+
+    mapStateToProps(_state: S) {
+      return {};
+    }
+
+    mapDispatchToProps(_dispatch: typeof store.dispatch) {
+      return {};
     }
   };

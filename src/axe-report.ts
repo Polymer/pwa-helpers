@@ -51,13 +51,9 @@ export interface AxeReportOptions extends RunOptions {
   axeConfig?: RunOptions
 }
 
-interface AxeReportRunOptions extends RunOptions {
-  resultTypes?: string[]
-}
-
 export async function axeReport(dom: ElementContext, config:AxeReportOptions = {}) {
   const {cleanup, axeConfig} = config;
-  const defaultConfig: AxeReportRunOptions = {
+  const defaultConfig: RunOptions = {
     runOnly: {
       type: 'tag',
       values: ['wcag2a', 'wcag2aa', 'section508']
