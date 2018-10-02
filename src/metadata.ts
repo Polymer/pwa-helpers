@@ -46,17 +46,17 @@ export const updateMetadata = ({title, description, url, image}: {title?: string
     _setMeta('property', 'twitter:image:src', image);
   }
 
-  url = url || document.location.href;
+  url = url || window.location.href;
   _setMeta('property', 'og:url', url);
   _setMeta('property', 'twitter:url', url);
 }
 
 function _setMeta(attrName:string, attrValue:string, content:string) {
-  let element = document.head.querySelector(`meta[${attrName}="${attrValue}"]`);
+  let element = document.head!.querySelector(`meta[${attrName}="${attrValue}"]`);
   if (!element) {
     element = document.createElement('meta');
     element.setAttribute(attrName, attrValue);
-    document.head.appendChild(element);
+    document.head!.appendChild(element);
   }
   element.setAttribute('content', content || '');
 }
