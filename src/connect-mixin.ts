@@ -48,5 +48,8 @@ export const connect =
       }
     }
 
+    /**
+     * The `stateChanged(state)` method will be called when the state is updated.
+     */
     stateChanged(_state: S) {}
   };
