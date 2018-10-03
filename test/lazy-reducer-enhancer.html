@@ -1,0 +1,74 @@
+<!--
+@license
+Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>lazy-reducer-enhancer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+  </head>
+  <body>
+    <script>
+      // Redux assumes `process.env.NODE_ENV` exists in the ES module build.
+      // https://github.com/reactjs/redux/issues/2907
+      window.process = { env: { NODE_ENV: 'production' } };
+    </script>
+    <script type="module">
+      import {
+        combineReducers,
+        compose,
+        createStore
+      } from 'redux';
+      import { lazyReducerEnhancer } from '../lazy-reducer-enhancer.js';
+
+      suite('lazy-reducer-enhancer tests', () => {
+        let store;
+        setup(() => {
+          store = createStore(
+            (state, action) => state,
+            { foo: 'FOO' },
+            compose(lazyReducerEnhancer(combineReducers)));
+        });
+
+        test('adding reducers', () => {
+          store.subscribe(() => {
+            // This assertion runs whenever the state is updated.
+            assert.equal(store.getState().foo, 'FOO');
+          });
+          store.addReducers({
+            foo: (state = 'FOO', action) => state
+          });
+          assert.equal(store.getState().count, undefined);
+
+          store.addReducers({
+            count: (state = 5, action) => {
+                switch (action.type) {
+                  case 'INCREMENT':
+                    return state + action.value;
+                  default:
+                    return state;
+                }
+              },
+          });
+          assert.equal(store.getState().count, 5);
+
+          store.dispatch({
+            type: 'INCREMENT',
+            value: 42
+          });
+          assert.equal(store.getState().count, 47);
+        });
+      });
+    </script>
+  </body>
+</html>

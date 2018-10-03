@@ -20,7 +20,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script>
       WCT.loadSuites([
         'connect-mixin.html',
+        // connect-mixin uses CEs so test polyfills.
         'connect-mixin.html?wc-shadydom=true&wc-ce=true',
+        'lazy-reducer-enhancer.html',
       ]);
     </script>
   </body>
