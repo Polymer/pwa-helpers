@@ -17,13 +17,15 @@ type Constructor<T> = new(...args: any[]) => T;
   class to a Redux store. The `stateChanged(state)` method will be called when
   the state is updated.
 
-  import { connect } from '../node_modules/pwa-helpers/connect-mixin.js';
+  Example:
 
-  class MyElement extends connect(store)(HTMLElement) {
-    stateChanged(state) {
-      this.textContent = state.data.count.toString();
-    }
-  }
+      import { connect } from 'pwa-helpers/connect-mixin.js';
+
+      class MyElement extends connect(store)(HTMLElement) {
+        stateChanged(state) {
+          this.textContent = state.data.count.toString();
+        }
+      }
 */
 export const connect =
   <S>(store: Store<S>) =>
