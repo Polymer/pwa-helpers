@@ -12,23 +12,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Tests</title>
+    <title>media-query</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="../node_modules/wct-browser-legacy/browser.js"></script>
   </head>
   <body>
-    <script>
-      WCT.loadSuites([
-        'axe-report.html',
-        'connect-mixin.html',
-        // connect-mixin uses CEs so test polyfills.
-        'connect-mixin.html?wc-shadydom=true&wc-ce=true',
-        'lazy-reducer-enhancer.html',
-        'media-query.html',
-        'metadata.html',
-        'network.html',
-        'router.html',
-      ]);
+    <script type="module">
+      import { installMediaQueryWatcher } from '../media-query.js';
+
+      suite('media-query tests', () => {
+        test('match should use callback', () => {
+          const callback = sinon.spy();
+          installMediaQueryWatcher('(min-width: 1px)', callback);
+          assert.isTrue(callback.lastCall.args[0]);
+        });
+
+        test('mismatch should use callback', () => {
+          const callback = sinon.spy();
+          installMediaQueryWatcher('(min-width: 10000px)', callback);
+          assert.isFalse(callback.lastCall.args[0]);
+        });
+      });
     </script>
   </body>
 </html>
