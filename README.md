@@ -1,4 +1,8 @@
 # pwa-helpers
+
+[![Build Status](https://travis-ci.org/Polymer/pwa-helpers.svg?branch=master)](https://travis-ci.org/Polymer/pwa-helpers)
+[![Published on npm](https://img.shields.io/npm/v/pwa-helpers.svg)](https://www.npmjs.com/package/pwa-helpers)
+
 Small helper methods or mixins to help build a PWA,
 and reduce the boilerplate you might have to write. There are many different
 ways in which you could write these helpers; use these if you want a simple
