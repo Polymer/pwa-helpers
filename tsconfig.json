@@ -15,8 +15,7 @@
     "outDir": "."
   },
   "include": [
-    "src/**/*.ts",
-    "custom_typings/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [],
 }

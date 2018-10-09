@@ -13,6 +13,22 @@ import { Store, Unsubscribe } from 'redux';
 type Constructor<T> = new(...args: any[]) => T;
 
 /**
+  By using this `CustomElement` interface instead of `HTMLElement`, we avoid
+  having the generated typings include most DOM API already provided by
+  TypeScript. This is particularly useful since different versions of
+  TypeScript may have different DOM API typings (e.g. TS 3.0.3 and TS 3.1.1).
+  The required `isConnected` property is included to avoid the following
+  TypeScript error:
+
+      Type 'HTMLElement' has no properties in common with type 'CustomElement'.
+*/
+interface CustomElement {
+  connectedCallback?(): void;
+  disconnectedCallback?(): void;
+  readonly isConnected: boolean;
+}
+
+/**
   This is a JavaScript mixin that you can use to connect a Custom Element base
   class to a Redux store. The `stateChanged(state)` method will be called when
   the state is updated.
@@ -29,7 +45,7 @@ type Constructor<T> = new(...args: any[]) => T;
 */
 export const connect =
   <S>(store: Store<S>) =>
-  <T extends Constructor<HTMLElement>>(baseElement: T) =>
+  <T extends Constructor<CustomElement>>(baseElement: T) =>
   class extends baseElement {
     _storeUnsubscribe!: Unsubscribe;
 
