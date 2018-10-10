@@ -8,31 +8,32 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-/*
+/**
   Utility method that updates the page's open graph and Twitter card metadata.
   It takes an object as a parameter with the following properties:
   title | description | url | image.
 
-  If the `url` is not specified, `document.location.href` will be used; for
+  If the `url` is not specified, `window.location.href` will be used; for
   all other properties, if they aren't specified, then that metadata field will not
   be set.
 
-  Sample use:
-  import { updateMetadata } from '../node_modules/pwa-helpers/metadata.js';
+  Example (in your top level element or document, or in the router callback):
 
-  updateMetadata({
-      title: 'My App - view 1',
-      description: 'This is my sample app',
-      url: document.location.href,
-      image: '/assets/view1-hero.png'
-  });
+      import { updateMetadata } from 'pwa-helpers/metadata.js';
+
+      updateMetadata({
+        title: 'My App - view 1',
+        description: 'This is my sample app',
+        url: window.location.href,
+        image: '/assets/view1-hero.png'
+      });
 
 */
 export const updateMetadata = ({title, description, url, image}: {title?: string, description?: string, url?: string, image?: string}) => {
   if (title) {
     document.title = title;
-    _setMeta('property', 'og:title', document.title);
-    _setMeta('property', 'twitter:title', document.title);
+    _setMeta('property', 'og:title', title);
+    _setMeta('property', 'twitter:title', title);
   }
 
   if (description) {
@@ -46,17 +47,17 @@ export const updateMetadata = ({title, description, url, image}: {title?: string
     _setMeta('property', 'twitter:image:src', image);
   }
 
-  url = url || document.location.href;
+  url = url || window.location.href;
   _setMeta('property', 'og:url', url);
   _setMeta('property', 'twitter:url', url);
 }
 
 function _setMeta(attrName:string, attrValue:string, content:string) {
-  let element = document.head.querySelector(`meta[${attrName}="${attrValue}"]`);
+  let element = document.head!.querySelector(`meta[${attrName}="${attrValue}"]`);
   if (!element) {
     element = document.createElement('meta');
     element.setAttribute(attrName, attrValue);
-    document.head.appendChild(element);
+    document.head!.appendChild(element);
   }
   element.setAttribute('content', content || '');
 }

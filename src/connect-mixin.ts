@@ -8,50 +8,66 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-/*
-  Mixin for connecting an element to the Redux store; implements the
-  basic store-connection boilerplate.
-
-  Sample use:
-  import { connect } from '../node_modules/pwa-helpers/connect-mixin.js';
-
-  class MyElement extends connect(store)(HTMLElement) {
-    // ...
-
-    _stateChanged(state) {
-      this.count = state.data.count;
-    }
-  }
-*/
 import { Store, Unsubscribe } from 'redux';
 
 type Constructor<T> = new(...args: any[]) => T;
 
+/**
+  By using this `CustomElement` interface instead of `HTMLElement`, we avoid
+  having the generated typings include most DOM API already provided by
+  TypeScript. This is particularly useful since different versions of
+  TypeScript may have different DOM API typings (e.g. TS 3.0.3 and TS 3.1.1).
+  The required `isConnected` property is included to avoid the following
+  TypeScript error:
+
+      Type 'HTMLElement' has no properties in common with type 'CustomElement'.
+*/
+interface CustomElement {
+  connectedCallback?(): void;
+  disconnectedCallback?(): void;
+  readonly isConnected: boolean;
+}
+
+/**
+  This is a JavaScript mixin that you can use to connect a Custom Element base
+  class to a Redux store. The `stateChanged(state)` method will be called when
+  the state is updated.
+
+  Example:
+
+      import { connect } from 'pwa-helpers/connect-mixin.js';
+
+      class MyElement extends connect(store)(HTMLElement) {
+        stateChanged(state) {
+          this.textContent = state.data.count.toString();
+        }
+      }
+*/
 export const connect =
   <S>(store: Store<S>) =>
-  <T extends Constructor<HTMLElement>>(baseElement: T) =>
+  <T extends Constructor<CustomElement>>(baseElement: T) =>
   class extends baseElement {
-    __storeUnsubscribe!: Unsubscribe;
+    _storeUnsubscribe!: Unsubscribe;
 
     connectedCallback() {
-      // Connect the element to the store.
-      this.__storeUnsubscribe = store.subscribe(() => this._stateChanged(store.getState()));
-      this._stateChanged(store.getState());
       if (super.connectedCallback) {
         super.connectedCallback();
       }
+
+      this._storeUnsubscribe = store.subscribe(() => this.stateChanged(store.getState()));
+      this.stateChanged(store.getState());
     }
 
     disconnectedCallback() {
-      this.__storeUnsubscribe();
+      this._storeUnsubscribe();
 
       if (super.disconnectedCallback) {
         super.disconnectedCallback();
       }
     }
 
-    // This is called every time something is updated in the store.
-    _stateChanged(_state: S) {
-      throw new Error('_stateChanged() not implemented');
-    }
+    /**
+     * The `stateChanged(state)` method will be called when the state is updated.
+     */
+    stateChanged(_state: S) {}
   };
