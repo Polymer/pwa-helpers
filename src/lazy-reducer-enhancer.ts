@@ -28,9 +28,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     someReducer
   });
 */
-import { ReducersMapObject, StoreEnhancer } from 'redux'
+import { ReducersMapObject, StoreEnhancer, Store } from 'redux'
 
-export interface LazyStore {
+export interface LazyStore extends Store {
   addReducers: (newReducers: ReducersMapObject) => void
 }
 
