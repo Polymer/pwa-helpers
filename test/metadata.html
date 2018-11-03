@@ -55,6 +55,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.equal(getMetaContent('property', 'twitter:url'), window.location.href);
         });
 
+        test('update twitterCard', () => {
+          const twitterCard = 'SOME_TWITTER_CARD';
+          updateMetadata({twitterCard});
+          assert.equal(getMetaContent('name', 'twitter:card'), twitterCard);
+          assert.equal(getMetaContent('property', 'og:url'), window.location.href);
+          assert.equal(getMetaContent('property', 'twitter:url'), window.location.href);
+        });
+
         test('update url', () => {
           const url = 'SOME_URL';
           updateMetadata({url});
