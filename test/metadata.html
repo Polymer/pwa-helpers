@@ -50,7 +50,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           const image = 'SOME_IMAGE';
           updateMetadata({image});
           assert.equal(getMetaContent('property', 'og:image'), image);
-          assert.equal(getMetaContent('property', 'twitter:image:src'), image);
+          assert.equal(getMetaContent('name', 'twitter:image'), image);
           assert.equal(getMetaContent('property', 'og:url'), window.location.href);
           assert.equal(getMetaContent('property', 'twitter:url'), window.location.href);
         });

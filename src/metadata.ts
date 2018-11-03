@@ -44,7 +44,7 @@ export const updateMetadata = ({title, description, url, image}: {title?: string
 
   if (image) {
     _setMeta('property', 'og:image', image);
-    _setMeta('property', 'twitter:image:src', image);
+    _setMeta('name', 'twitter:image', image);
   }
 
   url = url || window.location.href;
