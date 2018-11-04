@@ -33,13 +33,13 @@ export const updateMetadata = ({title, description, url, image}: {title?: string
   if (title) {
     document.title = title;
     _setMeta('property', 'og:title', title);
-    _setMeta('property', 'twitter:title', title);
+    _setMeta('name', 'twitter:title', title);
   }
 
   if (description) {
     _setMeta('name', 'description', description);
     _setMeta('property', 'og:description', description);
-    _setMeta('property', 'twitter:description', description);
+    _setMeta('name', 'twitter:description', description);
   }
 
   if (image) {
@@ -49,7 +49,7 @@ export const updateMetadata = ({title, description, url, image}: {title?: string
 
   url = url || window.location.href;
   _setMeta('property', 'og:url', url);
-  _setMeta('property', 'twitter:url', url);
+  _setMeta('name', 'twitter:url', url);
 }
 
 function _setMeta(attrName:string, attrValue:string, content:string) {

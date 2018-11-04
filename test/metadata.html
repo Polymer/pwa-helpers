@@ -31,9 +31,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           updateMetadata({title});
           assert.equal(document.title, title);
           assert.equal(getMetaContent('property', 'og:title'), title);
-          assert.equal(getMetaContent('property', 'twitter:title'), title);
+          assert.equal(getMetaContent('name', 'twitter:title'), title);
           assert.equal(getMetaContent('property', 'og:url'), window.location.href);
-          assert.equal(getMetaContent('property', 'twitter:url'), window.location.href);
+          assert.equal(getMetaContent('name', 'twitter:url'), window.location.href);
         });
 
         test('update description', () => {
@@ -41,9 +41,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           updateMetadata({description});
           assert.equal(getMetaContent('name', 'description'), description);
           assert.equal(getMetaContent('property', 'og:description'), description);
-          assert.equal(getMetaContent('property', 'twitter:description'), description);
+          assert.equal(getMetaContent('name', 'twitter:description'), description);
           assert.equal(getMetaContent('property', 'og:url'), window.location.href);
-          assert.equal(getMetaContent('property', 'twitter:url'), window.location.href);
+          assert.equal(getMetaContent('name', 'twitter:url'), window.location.href);
         });
 
         test('update image', () => {
@@ -52,14 +52,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.equal(getMetaContent('property', 'og:image'), image);
           assert.equal(getMetaContent('name', 'twitter:image'), image);
           assert.equal(getMetaContent('property', 'og:url'), window.location.href);
-          assert.equal(getMetaContent('property', 'twitter:url'), window.location.href);
+          assert.equal(getMetaContent('name', 'twitter:url'), window.location.href);
         });
 
         test('update url', () => {
           const url = 'SOME_URL';
           updateMetadata({url});
           assert.equal(getMetaContent('property', 'og:url'), url);
-          assert.equal(getMetaContent('property', 'twitter:url'), url);
+          assert.equal(getMetaContent('name', 'twitter:url'), url);
         });
       });
     </script>
