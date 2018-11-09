@@ -56,6 +56,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.equal(getMetaContent('property', 'og:url'), window.location.href);
         });
 
+        test('update themColor', () => {
+          const themeColor = 'SOME_THEME_COLOR';
+          updateMetadata({themeColor});
+          assert.equal(getMetaContent('name', 'theme-color'), themeColor);
+          assert.equal(getMetaContent('property', 'og:url'), window.location.href);
+        });
+
         test('update url', () => {
           const url = 'SOME_URL';
           updateMetadata({url});

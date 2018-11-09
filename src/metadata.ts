@@ -34,13 +34,15 @@ export const updateMetadata = ({
   description,
   url,
   image,
-  imageAlt
+  imageAlt,
+  themeColor
 }: {
   title?: string,
   description?: string,
   url?: string,
   image?: string,
-  imageAlt?: string
+  imageAlt?: string,
+  themeColor?: string
 }) => {
   if (title) {
     document.title = title;
@@ -58,6 +60,10 @@ export const updateMetadata = ({
 
   if (imageAlt) {
     _setMeta('property', 'og:image:alt', imageAlt);
+  }
+
+  if (themeColor) {
+    _setMeta('name', 'theme-color', themeColor);
   }
 
   url = url || window.location.href;
