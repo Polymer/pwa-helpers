@@ -34,13 +34,17 @@ export const updateMetadata = ({
   description,
   url,
   image,
-  imageAlt
+  imageAlt,
+  imageWidth,
+  imageHeight
 }: {
   title?: string,
   description?: string,
   url?: string,
   image?: string,
-  imageAlt?: string
+  imageAlt?: string,
+  imageWidth?: string,
+  imageHeight?: string
 }) => {
   if (title) {
     document.title = title;
@@ -58,6 +62,14 @@ export const updateMetadata = ({
 
   if (imageAlt) {
     _setMeta('property', 'og:image:alt', imageAlt);
+  }
+
+  if (imageWidth) {
+    _setMeta('property', 'og:image:width', imageWidth);
+  }
+
+  if (imageHeight) {
+    _setMeta('property', 'og:image:height', imageHeight);
   }
 
   url = url || window.location.href;

@@ -56,6 +56,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.equal(getMetaContent('property', 'og:url'), window.location.href);
         });
 
+        test('update imageWidth', () => {
+          const imageWidth = 'SOME_IMAGE_WIDTH';
+          updateMetadata({imageWidth});
+          assert.equal(getMetaContent('property', 'og:image:width'), imageWidth);
+          assert.equal(getMetaContent('property', 'og:url'), window.location.href);
+        });
+
+        test('update imageHeight', () => {
+          const imageHeight = 'SOME_IMAGE_HEIGHT';
+          updateMetadata({imageHeight});
+          assert.equal(getMetaContent('property', 'og:image:height'), imageHeight);
+          assert.equal(getMetaContent('property', 'og:url'), window.location.href);
+        });
+
         test('update url', () => {
           const url = 'SOME_URL';
           updateMetadata({url});
