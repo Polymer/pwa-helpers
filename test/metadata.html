@@ -18,7 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </head>
   <body>
     <script type="module">
-      import { updateMetadata } from '../metadata.js';
+      import { setMetaTag, updateMetadata } from '../metadata.js';
 
       function getMetaContent(attrName, attrValue) {
         const meta = document.head.querySelector(`meta[${attrName}="${attrValue}"]`);
@@ -60,6 +60,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           const url = 'SOME_URL';
           updateMetadata({url});
           assert.equal(getMetaContent('property', 'og:url'), url);
+        });
+
+        test('set arbitrary meta tag', () => {
+          const content = 'summary';
+          setMetaTag('name', 'twitter:card', content);
+          assert.equal(getMetaContent('name', 'twitter:card'), content);
         });
       });
     </script>

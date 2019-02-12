@@ -11,6 +11,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 export { connect } from './connect-mixin.js';
 export { lazyReducerEnhancer } from './lazy-reducer-enhancer.js';
 export { installMediaQueryWatcher } from './media-query.js';
-export { updateMetadata } from './metadata.js';
+export { setMetaTag, updateMetadata } from './metadata.js';
 export { installOfflineWatcher } from './network.js';
 export { installRouter } from './router.js';

@@ -44,27 +44,43 @@ export const updateMetadata = ({
 }) => {
   if (title) {
     document.title = title;
-    _setMeta('property', 'og:title', title);
+    setMetaTag('property', 'og:title', title);
   }
 
   if (description) {
-    _setMeta('name', 'description', description);
-    _setMeta('property', 'og:description', description);
+    setMetaTag('name', 'description', description);
+    setMetaTag('property', 'og:description', description);
   }
 
   if (image) {
-    _setMeta('property', 'og:image', image);
+    setMetaTag('property', 'og:image', image);
   }
 
   if (imageAlt) {
-    _setMeta('property', 'og:image:alt', imageAlt);
+    setMetaTag('property', 'og:image:alt', imageAlt);
   }
 
   url = url || window.location.href;
-  _setMeta('property', 'og:url', url);
+  setMetaTag('property', 'og:url', url);
 }
 
-function _setMeta(attrName:string, attrValue:string, content:string) {
+/**
+  Utility method to create or update the content of a meta tag based on an
+  attribute name/value pair.
+
+  Example (in your top level element or document, or in the router callback):
+
+      import { setMetaTag } from 'pwa-helpers/metadata.js';
+
+      setMetaTag('name', 'twitter:card', 'summary');
+      
+  This would create the following meta tag in the head of the document (or
+  update the content attribute if a meta tag with name="twitter:card" exists):
+
+      <meta name="twitter:card" content="summary">
+
+*/
+export function setMetaTag(attrName:string, attrValue:string, content:string) {
   let element = document.head!.querySelector(`meta[${attrName}="${attrValue}"]`);
   if (!element) {
     element = document.createElement('meta');
