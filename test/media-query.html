@@ -14,10 +14,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta charset="utf-8">
     <title>media-query</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/wct-mocha/wct-mocha.js"></script>
   </head>
   <body>
     <script type="module">
+      import sinon from 'sinon';
       import { installMediaQueryWatcher } from '../media-query.js';
 
       suite('media-query tests', () => {
