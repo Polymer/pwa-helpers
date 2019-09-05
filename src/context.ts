@@ -21,11 +21,81 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 interface CustomElement {
   dispatchEvent(event: Event): boolean;
   connectedCallback?(): void;
+  disconnectedCallback?(): void;
   readonly isConnected: boolean;
+}
+
+interface Detail<T> {
+  onChange: (v: T) => void;
+  setUnsubscribe: (uf: () => void) => void;
 }
 
 type Constructor<T> = new (...args: any[]) => T;
 
+const doNothing = () => {};
+
+/**
+  This creates a new context. Context can be used to pass arbitary values down 
+  the dom tree. Context is updated when the value property changes or the 
+  position in the dom of the comsumer changes. Consumer will always receive a
+  context.
+
+  This returs [`Provider`, `consumerMixin`, `callbackPropertySymbol`].
+  `Provider` is the context providing custom element.`consumerMixin` is the 
+  mixin that is used to actually consume a value provided. 
+  `callbackProperSymbol` is the property that will be called when the 
+  context value changes.
+
+  Example:
+
+    // log-context.js
+
+    import createContext from 'pwa-helpers/context.js';
+
+    const LoggerContext = "logger";    
+
+    export const [Provider, consumerMixin, loggerCallback] = createContext(
+      LoggerContext,
+      {
+        log: console.log
+      }
+    );
+
+    customElements.define("context-logger", Provider);
+
+    // my-app.js
+
+    import "./log-context.js";
+
+    @customElement("hey-app")
+    class HeyApp extends LitElement {
+      render() {
+        // If we remove `.value` here it will default to `console.log`
+        return html`
+          <context-logger .value=${{ log: console.error }}>
+            <inside-app></inside-app>
+          </context-logger>
+        `;
+      }
+    }    
+
+    // inside-app.js
+
+    import { consumerMixin, loggerCallback } from "./log-context.js";
+
+    @customElement("inside-app")
+    export class InsideApp extends consumerMixin(LitElement) {
+      render() {
+        return html`
+          <div>Inside</div>
+        `;
+      }
+
+      [loggerCallback](l) {
+        l.log("Logger Received");
+      }
+    }
+*/
 export function createContext<T>(
   name: string,
   defaultValue: T
@@ -35,53 +105,84 @@ export function createContext<T>(
   symbol
 ] {
   const eventName = `context-${name}`;
+
   class Provider extends HTMLElement {
-    value = defaultValue;
+    _value = defaultValue;
+    consumers: Array<(t: T) => void> = [];
+
     constructor() {
       super();
 
-      this.addEventListener(
-        eventName,
-        (
-          e: Event & {
-            detail?: (v: T) => void;
+      this.addEventListener(eventName, (e: Event & { detail?: Detail<T> }) => {
+        if (e.detail) {
+          e.detail.onChange && e.detail.onChange(this._value);
+          if (e.detail.setUnsubscribe && e.detail.onChange) {
+            const onChange = e.detail.onChange;
+            this.consumers = [...this.consumers, onChange];
+            e.detail.setUnsubscribe(
+              () =>
+                (this.consumers = this.consumers.filter(v => v !== onChange))
+            );
           }
-        ) => {
-          e.detail && e.detail(this.value);
-          e.stopPropagation();
         }
-      );
+
+        e.stopPropagation();
+      });
+    }
+
+    get value() {
+      return this._value;
+    }
+
+    set value(value: T) {
+      this._value = value;
+      this.consumers.forEach(c => c(value));
     }
   }
 
-  const cb = Symbol(`_on${name}ContextChange`);
+  const callbackPropertySymbol = Symbol(`_on${name}ContextChange`);
+  const unSubsribe = Symbol(`_unsubscribe${name}`);
 
-  const consumerMixin = <V extends Constructor<CustomElement>>(Base: V) =>
-    class Consumer extends Base {
+  const consumerMixin = <V extends Constructor<CustomElement>>(Base: V) => {
+    return class Consumer extends Base {
       connectedCallback() {
-        if (super.connectedCallback) {
-          super.connectedCallback();
-        }
+        super.connectedCallback && super.connectedCallback();
 
+        this[unSubsribe]();
         let called = false;
-        const event = new CustomEvent<(v: T) => void>(eventName, {
+        const event = new CustomEvent<Detail<T>>(eventName, {
           bubbles: true,
           cancelable: true,
           composed: true,
-          detail: value => {
-            called = true;
-            this[cb](value);
+          detail: {
+            onChange: value => {
+              called = true;
+              this[callbackPropertySymbol](value);
+            },
+            setUnsubscribe: uf => {
+              this[unSubsribe] = uf;
+            }
           }
         });
         this.dispatchEvent(event);
 
         if (!called) {
-          this[cb](defaultValue);
+          this[callbackPropertySymbol](defaultValue);
         }
       }
 
-      [cb](_: T) {}
-    };
+      disconnectedCallback() {
+        super.disconnectedCallback && super.disconnectedCallback();
+        this[unSubsribe]();
+        this[unSubsribe] = doNothing;
+      }
 
-  return [Provider, consumerMixin, cb];
+      [callbackPropertySymbol](_: T) {}
+      [unSubsribe] = doNothing;
+    };
+  };
+
+  return [Provider, consumerMixin, callbackPropertySymbol];
 }
+
+export default createContext;
