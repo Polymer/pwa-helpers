@@ -96,14 +96,14 @@ const doNothing = () => {};
       }
     }
 */
-export function createContext<T>(
+export const createContext = <T>(
   name: string,
   defaultValue: T
 ): [
   typeof HTMLElement,
   (base: typeof HTMLElement) => typeof HTMLElement,
   symbol
-] {
+] => {
   const eventName = `context-${name}`;
 
   class Provider extends HTMLElement {
@@ -183,6 +183,4 @@ export function createContext<T>(
   };
 
   return [Provider, consumerMixin, callbackPropertySymbol];
-}
-
-export default createContext;
+};
