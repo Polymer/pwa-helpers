@@ -14,3 +14,4 @@ export { installMediaQueryWatcher } from './media-query.js';
 export { setMetaTag, updateMetadata } from './metadata.js';
 export { installOfflineWatcher } from './network.js';
 export { installRouter } from './router.js';
+export { createContext } from './context.js';
